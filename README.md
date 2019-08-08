@@ -1,2 +1,2 @@
 # jsonstat-viz
-Visualize jsonstat
+Visualize json-stat.json data with JavaScript
