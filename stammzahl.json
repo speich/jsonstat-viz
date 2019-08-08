@@ -23,7 +23,8 @@
         "comment": "we could use the status property to indicate which rows to hide/skip"
     },
     "extension": {
-        "skip": "we could use the extension property to indicate which rows to hide/skip"
+        "skip": "we could use the extension property to indicate which rows to hide/skip",
+        "url-json": "https://www.lfi.ch/doctemp/stammzahl.json"
     },
     "dimension": {
         "PRODREG": {
