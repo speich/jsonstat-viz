@@ -1,0 +1,128 @@
+{
+    "version": "2.0",
+    "class": "dataset",
+    "id": ["HOEHE", "EIGENKATLFI4", "PRODREG", "concept"],
+    "size": [5, 3, 6, 2],
+    "role": {
+        "geo": [
+            "PRODREG"
+        ],
+        "metric": [
+            "concept"
+        ]
+    },
+    "value": [
+        46.3, 3, 37.3, 4, 34.8, 5, 84.0, 3, 36.3, 5, 238.7, 2, 16.5, 7, 29.7, 5, 35.6, 4, 30.9, 6, 14.6, 9, 127.4, 3, 62.8, 2, 67.0, 3, 70.4, 3, 114.9, 2, 50.9,
+        4, 366.1, 1, 4.3, 6, 2.5, 7, 3.0, 8, 9.2, 4, 3.9, 7, 22.9, 3, 1.2, 12, 1.6, 10, 2.8, 9, 3.6, 9, 1.6, 12, 10.7, 5, 5.5, 5, 4.1, 6, 5.8, 6, 12.8, 4, 5.4,
+        5, 33.6, 2, 5.9, 4, 4.5, 5, 4.4, 6, 8.7, 4, 2.5, 7, 26.0, 2, 2.5, 8, 4.3, 6, 5.5, 6, 3.3, 7, 0.6, 16, 16.2, 3, 8.4, 3, 8.8, 4, 10.0, 4, 12.0, 3, 3.1,
+        6, 42.2, 2, 0.8, 12, 1.6, 9, 1.0, 12, 1.1, 10, 0.1, 35, 4.5, 5, 0.3, 20, 1.5, 10, 1.6, 10, 0.3, 17, 0.0, 85, 3.8, 6, 1.1, 10, 3.1, 6, 2.6, 7, 1.4, 8,
+        0.1, 33, 8.3, 4, 57.3, 3, 45.8, 4, 43.2, 5, 103.1, 3, 42.7, 4, 292.1, 2, 20.5, 7, 37.1, 5, 45.6, 4, 38.1, 6, 16.9, 9, 158.2, 3, 77.8, 2, 82.9, 2, 88.8,
+        2, 141.2, 2, 59.5, 3, 450.2, 1
+    ],
+    "status": {
+        "comment": "we could use the status property to indicate which rows to hide/skip"
+    },
+    "extension": {
+        "skip": "we could use the extension property to indicate which rows to hide/skip"
+    },
+    "dimension": {
+        "PRODREG": {
+            "label": "production region",
+            "category": {
+                "index": {
+                    "1": 0,
+                    "2": 1,
+                    "3": 2,
+                    "4": 3,
+                    "5": 4,
+                    "999999": 5
+                },
+                "label": {
+                    "1": "Jura",
+                    "2": "Plateau",
+                    "3": "Pre-Alps",
+                    "4": "Alps",
+                    "5": "Southern Alps",
+                    "999999": "Switzerland"
+                }
+            },
+            "extension": {
+                "VARNR": 49,
+                "TABNR": 6
+            }
+        },
+        "HOEHE": {
+            "label": "tree height",
+            "category": {
+                "index": {
+                    "-1": 0,
+                    "1": 1,
+                    "2": 2,
+                    "3": 3,
+                    "999999": 4
+                },
+                "label": {
+                    "-1": "n.a.",
+                    "1": "[0.00 - 22.00]",
+                    "2": "]22.00 - 36.00]",
+                    "3": "]36.00 - 51.3]",
+                    "999999": "total"
+                }
+            },
+            "extension": {
+                "VARNR": 112,
+                "TABNR": 5
+            }
+        },
+        "EIGENKATLFI4": {
+            "label": "ownership (NFI4)",
+            "category": {
+                "index": {
+                    "1": 0,
+                    "2": 1,
+                    "999999": 2
+                },
+                "label": {
+                    "1": "public",
+                    "2": "private",
+                    "999999": "total"
+                }
+            },
+            "extension": {
+                "VARNR": 1992,
+                "TABNR": 4
+            }
+        },
+        "concept": {
+            "label": "stem number",
+            "category": {
+                "index": {
+                    "1": 0,
+                    "2": 1
+                },
+                "label": {
+                    "1": "Mio n",
+                    "2": "± %"
+                },
+                "unit": {
+                    "1": {
+                        "decimals": 1,
+                        "label": "Mio",
+                        "symbol": "n",
+                        "multiplier": 1000000
+                    },
+                    "2": {
+                        "decimals": 0,
+                        "label": "±",
+                        "symbol": "%",
+                        "multiplier": 1
+                    }
+                }
+            },
+            "extension": {
+                "ZIGRNR": 73,
+                "TABNR": 5
+            }
+        }
+    }
+}
