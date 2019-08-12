@@ -31,14 +31,7 @@
         "PRODREG": {
             "label": "production region",
             "category": {
-                "index": {
-                    "1": 0,
-                    "2": 1,
-                    "3": 2,
-                    "4": 3,
-                    "5": 4,
-                    "999999": 5
-                },
+                "index": ["1", "2", "3", "4", "5", "999999"],
                 "label": {
                     "1": "Jura",
                     "2": "Plateau",
@@ -56,14 +49,7 @@
         "HAHBART": {
             "label": "tree species (5 classes)",
             "category": {
-                "index": {
-                    "1": 0,
-                    "2": 1,
-                    "6": 2,
-                    "7": 3,
-                    "12": 4,
-                    "999999": 5
-                },
+                "index": ["1", "2", "6", "7", "12", "999999"],
                 "label": {
                     "1": "spruce",
                     "2": "fir",
@@ -81,10 +67,7 @@
         "concept": {
             "label": "stem number",
             "category": {
-                "index": {
-                    "1": 0,
-                    "2": 1
-                },
+                "index": ["1", "2"],
                 "label": {
                     "1": "1000 n",
                     "2": "± %"
