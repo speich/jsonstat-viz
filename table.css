@@ -1,0 +1,16 @@
+.jst-viz th, .jst-viz td {
+	border: 1px solid black;
+	padding: 0.2em 0.3em;
+}
+
+.jst-viz th {
+	background-color: #eeeeee;
+}
+
+.jst-viz td {
+	text-align: right;
+}
+
+.jst-viz th[scope="row"] {
+	text-align: left;
+}
