@@ -14,62 +14,81 @@ export class RendererTable {
 	 * @param {JsonStat} jsonstat
 	 */
 	constructor(jsonstat) {
+		this.colDims = [];
+		this.rowDims = [];
 		this.numColDims = 2;
 		this.jsonstat = jsonstat;
 		this.table = document.createElement('table');
 		this.table.classList.add('jst-viz');
 	}
 
-	/**
-	 * Calculates the number of value columns from the sizes of the dimensions.
-	 * Sizes of dimensions are taken in the reverse, starting with the last dimension until number of column dimensions.
-	 */
-	getNumValueColumns() {
-		let dimIdx = this.jsonstat.data.size.length - this.numColDims;
-
-		return this.crossProductRight(dimIdx);
+	init() {
+		this.rowDims = this.jsonstat.data.size.slice(0, this.numColDims);
+		this.colDims = this.jsonstat.data.size.slice(this.numColDims);
+		this.numValueCols = this.getNumValueColumns();
+		this.numLabelCols = this.getNumLabelColumns();
 	}
 
 	/**
-	 * Calculates the cross product of all dimension sizes with a lower index.
-	 * @param dimIdx
-	 * @return {number}
-	 */
-	crossProductLeft(dimIdx) {
-		let num = 1;
-
-		for (let i = 0; i < dimIdx; i++) {
-			num *= this.jsonstat.data.size[i];
-		}
-
-		return num;
-	}
-
-	/**
-	 * Calculates the cross product of all dimension sizes with a higher index.
-	 * @param dimIdx
-	 * @return {number}
-	 */
-	crossProductRight(dimIdx) {
-		let num = 1,
-			len = this.jsonstat.data.size.length;
-
-		for (let i = dimIdx; i < len; i++) {
-			num *= this.jsonstat.data.size[i];
-		}
-
-		return num;
-	}
-
-	/**
-	 * Calculates the number of label columns
+	 * Calculate the number of label columns
 	 * @return {number}
 	 */
 	getNumLabelColumns() {
-		return this.jsonstat.data.size.length - this.numColDims;
+		return this.rowDims.length;
+	}
+
+	/**
+	 * Calculate the number of value columns from the sizes of the dimensions.
+	 * Sizes of dimensions are taken in the reverse, starting with the last dimension until number of column dimensions.
+	 */
+	getNumValueColumns() {
+		return RendererTable.product(this.colDims);
+	}
+
+	/**
+	 * Calculate the product of all array elements.
+	 * @param {Array} values
+	 */
+	static product(values) {
+
+		return values.reduce((a, b) => a * b);
+	}
+
+	/**
+	 * Calculate the product of all array elements with an index lower than the passed index.
+	 * @param {Array} values
+	 * @param idx element index
+	 * @return {number}
+	 */
+	static productLower(values, idx) {
+		let num = 1;
+
+		for (let i = 0; i < idx; i++) {
+			num *= values[i];
+		}
+
+		return num;
+	}
+
+	/**
+	 * Calculates the product of all array elements with an index higher than the passed one.
+	 * @param {Array} values
+	 * @param idx element index
+	 * @return {number}
+	 */
+	static productUpper(values, idx) {
+		let num = 1,
+			len = values.length;
+
+		for (let i = idx; i < len; i++) {
+			num *= values[i];
+		}
+
+		return num;
 	}
 
 	render() {
+		this.init();
 		this.renderRowHeaders();
 		this.renderRows();
 
@@ -77,16 +96,14 @@ export class RendererTable {
 	}
 
 	renderRows() {
-		let tBody, row, numValueCols, numLabelCols, data;
+		let tBody, row, data;
 
 		data = this.jsonstat.data;
-		numValueCols = this.getNumValueColumns();
-		numLabelCols = this.getNumLabelColumns();
 		tBody = this.table.createTBody();
 		for (let offset = 0, len = data.value.length; offset < len; offset++) {
-			if (offset % numValueCols === 0) {
+			if (offset % this.numValueCols === 0) {
 				row = tBody.insertRow();
-				this.renderLabelCells(row, numLabelCols);
+				this.renderLabelCells(row, this.numLabelCols);
 			}
 			this.renderValueCells(row, offset);
 		}
@@ -94,38 +111,37 @@ export class RendererTable {
 
 	renderRowHeaders() {
 		// num header rows = num column dimensions * 2
-		let row, cell, tHead, numCells, numValueCols,
+		let row, tHead,
 			numRows = this.numColDims * 2;
 
 		tHead = this.table.createTHead();
-		numValueCols = this.getNumValueColumns();
 		for (let rowIdx = 0; rowIdx < numRows; rowIdx++) {
 			row = tHead.insertRow();
 
 			// headers of label columns
-			for (let k = 0; k < this.getNumLabelColumns(); k++) {
+			for (let k = 0; k < this.numLabelCols; k++) {
 				let label;
 
 				if (rowIdx === numRows - 1) { // last header row
 					label = this.jsonstat.getLabel(k);
 				}
-				this.renderHeaderCell(row, label);
+				RendererTable.renderHeaderCell(row, label);
 			}
 
 			// headers of value columns
 			let dimIdx = this.jsonstat.data.size.length - this.numColDims + Math.floor(rowIdx / 2);
-			for (let k = 0; k < numValueCols; k++) {
+			for (let k = 0; k < this.numValueCols; k++) {
 				let label = this.jsonstat.getCategoryLabel(dimIdx, (k % 2));
 				/*if (i % 2 === 0) {
 					cell.colSpan = this.jsonstat.data.size[dimIdx];
 				}*/
 
-				this.renderHeaderCell(row, label);
+				RendererTable.renderHeaderCell(row, label);
 			}
 		}
 	}
 
-	renderLabelCells(row, numLabelCols) {
+	renderLabelCells_new(row, numLabelCols) {
 		let catIdx, dimSize = this.jsonstat.data.size;
 
 		for (let i = numLabelCols - 1; i > -1; i--) {
@@ -138,7 +154,7 @@ export class RendererTable {
 	 * @param {HTMLTableRowElement} row
 	 * @param numLabelCols
 	 */
-	renderLabelCells_old(row, numLabelCols) {
+	renderLabelCells(row, numLabelCols) {
 		let catIdx, label;
 
 		for (let i = 0; i < numLabelCols; i++) {
@@ -149,23 +165,23 @@ export class RendererTable {
 				catIdx = 0;
 			}
 			label = this.jsonstat.getCategoryLabel(i, catIdx);
-			this.renderHeaderCell(row, label, 'row');
+			RendererTable.renderHeaderCell(row, label, 'row');
 		}
 	}
 
 	renderValueCells(row, offset) {
 		let val = this.jsonstat.data.value[offset];
 
-		this.renderCell(row, val);
+		RendererTable.renderCell(row, val);
 	}
 
-	renderCell(row, str) {
+	static renderCell(row, str) {
 		let cell = row.insertCell();
 
 		cell.innerHTML = str;
 	}
 
-	renderHeaderCell(row, str, scope) {
+	static renderHeaderCell(row, str, scope) {
 		let cell = document.createElement('th');
 
 		if (scope !== undefined) {
