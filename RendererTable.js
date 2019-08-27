@@ -4,7 +4,7 @@
  * A table consists of a number of dimensions that are used to define the rows of the table (referred to as label columns)
  * and a number of dimensions that are used to define the columns of the table (referred to as value columns).
  *
- * Setting the property numColDims defines which dimensions are used for label columns and which for the value columns.
+ * Setting the property numRowDim defines which dimensions are used for label columns and which for the value columns.
  */
 export class RendererTable {
 	// auto: if dimension has role attribute 'geo' use it as the columns of the table
@@ -16,7 +16,7 @@ export class RendererTable {
 	constructor(jsonstat) {
 		this.colDims = [];
 		this.rowDims = [];
-		this.numColDims = 2;
+		this.numRowDim = 2;
 		this.jsonstat = jsonstat;
 		this.table = document.createElement('table');
 		this.table.classList.add('jst-viz');
@@ -24,11 +24,16 @@ export class RendererTable {
 
 	init() {
 		// cache some often used numbers before rendering table
-		this.rowDims = this.jsonstat.data.size.slice(0, this.numColDims);
-		this.colDims = this.jsonstat.data.size.slice(this.numColDims);
-		this.numValueCols = RendererTable.product(this.colDims);
+		this.rowDims = this.jsonstat.data.size.slice(0, this.numRowDim);
+		this.colDims = this.jsonstat.data.size.slice(this.numRowDim);
+		if (this.colDims.length > 0) {
+			this.numValueCols = RendererTable.product(this.colDims);
+		}
+		else {
+			this.numValueCols = 1;
+		}
 		this.numLabelCols = this.rowDims.length;
-		this.numHeaderRows = this.numColDims * 2;
+		this.numHeaderRows = this.colDims.length * 2;
 	}
 
 	/**
@@ -36,8 +41,35 @@ export class RendererTable {
 	 * @param {Array} values
 	 */
 	static product(values) {
+		if (values.length > 0) {
 
-		return values.reduce((a, b) => a * b);
+			return values.reduce((a, b) => a * b);
+		}
+		else {
+
+			return values;
+		}
+	}
+
+	/**
+	 * Calculate two products from array values.
+	 * @param {Array} values
+	 * @param idx element index
+	 * @return {Array}
+	 * @private
+	 */
+	_partials(values, idx) {
+		let f = [];
+
+		f[0] = RendererTable.productUpper(values, idx);
+		if (idx < values.length) {
+			f[1] = RendererTable.productUpper(values, idx + 1);
+		}
+		else {
+			f[1] = 1;
+		}
+
+		return f;
 	}
 
 	/**
@@ -64,7 +96,7 @@ export class RendererTable {
 	 */
 	static productUpper(values, idx) {
 		let num = 1,
-				len = values.length;
+			len = values.length;
 
 		for (let i = idx; i < len; i++) {
 			num *= values[i];
@@ -82,11 +114,10 @@ export class RendererTable {
 	}
 
 	rows() {
-		let tBody, row, data;
+		let tBody, row;
 
-		data = this.jsonstat.data;
 		tBody = this.table.createTBody();
-		for (let offset = 0, len = data.value.length; offset < len; offset++) {
+		for (let offset = 0, len = this.jsonstat.getNumValues(); offset < len; offset++) {
 			if (offset % this.numValueCols === 0) {
 				row = tBody.insertRow();
 				this.labelCells(row);
@@ -126,13 +157,19 @@ export class RendererTable {
 	 * @param {HTMLTableRowElement} row
 	 */
 	headerValueCells(row) {
-		let rowIdx, a, b, catIdx, label;
+		let idx, dimIdx, f, catIdx, label;
 
+		idx = Math.floor(row.rowIndex / 2);
+		dimIdx = this.numRowDim + idx;
+		f = this._partials(this.colDims, idx);
 		for (let i = 0; i < this.numValueCols; i++) {
-			a = RendererTable.productUpper(this.colDims, row.rowIndex);
-			b = RendererTable.productUpper(this.colDims, row.rowIndex + 1);
-			catIdx = Math.floor(i % a / b);
-			label = this.jsonstat.getCategoryLabel(this.numColDims + row.rowIndex % 2, catIdx);
+			if (row.rowIndex % 2 === 0) {
+				label = this.jsonstat.getLabel(dimIdx);
+			}
+			else {
+				catIdx = Math.floor((i % f[0]) / f[1]);
+				label = this.jsonstat.getCategoryLabel(dimIdx, catIdx);
+			}
 			RendererTable.headerCell(row, label, 'col');
 		}
 	}
@@ -142,13 +179,12 @@ export class RendererTable {
 	 * @param {HTMLTableRowElement} row
 	 */
 	labelCells(row) {
-		let rowIdx, a, b, catIdx, label;
+		let rowIdx, f, catIdx, label;
 
 		rowIdx = row.rowIndex - this.numHeaderRows;
 		for (let i = 0; i < this.numLabelCols; i++) {
-			a = RendererTable.productUpper(this.rowDims, i);
-			b = RendererTable.productUpper(this.rowDims, i + 1);
-			catIdx = Math.floor(rowIdx % a / b);
+			f = this._partials(this.rowDims, i);
+			catIdx = Math.floor(rowIdx % f[0] / f[1]);
 			label = this.jsonstat.getCategoryLabel(i, catIdx);
 			RendererTable.headerCell(row, label, 'row');
 		}

@@ -65,7 +65,7 @@
       "category": {
         "index": ["1", "2", "999999"],
         "label": {
-          "1": "confers",
+          "1": "conifers",
           "2": "broadleaves",
           "999999": "total"
         }

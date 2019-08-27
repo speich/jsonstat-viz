@@ -2,25 +2,65 @@ import {RendererTable} from '/RendererTable.js';
 import {JsonStat} from '/JsonStat.js';
 
 let app = {
-	loadJsonStat: function() {
-		let url = 'vorrat.json';
+	reader: null,
 
+	loadJsonStat: function(url) {
 		return fetch(url).then(response => {
 			return response.json();
 		});
 	},
 
-	init: function() {
-		this.loadJsonStat().then(json => {
-			let table, renderer, reader;
+	createSelect: function(numDims) {
+		let option, select;
 
-			reader = new JsonStat(json);
-			renderer = new RendererTable(reader);
-			renderer.numColDims = 2;
-			table = renderer.render();
-			document.body.appendChild(table);
+		select = document.createElement('select');
+		select.id = 'numDim';
+		for (let i = 0; i < numDims + 1; i++) {
+			option = document.createElement('option');
+			option.text = i;
+			option.value = i;
+			select.add(option);
+		}
+		select.addEventListener('change', (evt) => {
+			this.removeTable();
+			this.createTable(parseInt(evt.target.value));
 		});
+
+		document.body.appendChild(select);
+	},
+
+	removeTable: function() {
+		let table = document.querySelector('table');
+
+		table.parentNode.removeChild(table);
+	},
+
+	removeSelect: function() {
+		let select = document.getElementById('numDim');
+
+		select.parentNode.removeChild(select);
+	},
+
+	createTable: function(numRowDim) {
+		let renderer, table;
+
+		renderer = new RendererTable(this.reader);
+		renderer.numRowDim = numRowDim;
+		table = renderer.render();
+		document.body.appendChild(table);
+	},
+
+	init: function(json) {
+		this.reader = new JsonStat(json);
+		this.createSelect(this.reader.getNumDimensions());
+		this.createTable(0);
 	}
 };
 
-app.init();
+document.getElementById('source').addEventListener('change', evt => {
+	app.removeSelect();
+	app.removeTable();
+	app.loadJsonStat(evt.target.value).then(app.init.bind(app));
+});
+
+app.loadJsonStat('stammzahl.json').then(app.init.bind(app));
