@@ -53,7 +53,7 @@ let app = {
 	init: function(json) {
 		this.reader = new JsonStat(json);
 		this.createSelect(this.reader.getNumDimensions());
-		this.createTable(1);
+		this.createTable(2);
 	}
 };
 
@@ -63,5 +63,5 @@ document.getElementById('source').addEventListener('change', evt => {
 	app.loadJsonStat(evt.target.value).then(app.init.bind(app));
 });
 
-app.loadJsonStat('stammzahl.json').then(app.init.bind(app));
+app.loadJsonStat('vorrat.json').then(app.init.bind(app));
 //app.loadJsonStat('https://json-stat.org/samples/canada.json').then(app.init.bind(app));

@@ -35,8 +35,12 @@ export class JsonStat {
 		return this.escapeHtml(label);
 	}
 
+	/**
+	 * Escape a string so it can be safely inserted into html.
+	 * @param text
+	 * @return {void | string}
+	 */
 	escapeHtml(text) {
-		//return  text;
 		// @see https://stackoverflow.com/questions/1787322/htmlspecialchars-equivalent-in-javascript/4835406#4835406
 		let map = {
 			'&': '&amp;',
