@@ -26,14 +26,9 @@ export class RendererTable {
 		// cache some often used numbers before rendering table
 		this.rowDims = this.jsonstat.data.size.slice(0, this.numRowDim);
 		this.colDims = this.jsonstat.data.size.slice(this.numRowDim);
-		if (this.colDims.length > 0) {
-			this.numValueCols = RendererTable.product(this.colDims);
-		}
-		else {
-			this.numValueCols = 1;
-		}
+		this.numValueCols = this.colDims.length > 0 ? RendererTable.product(this.colDims): 1;
 		this.numLabelCols = this.rowDims.length;
-		this.numHeaderRows = this.colDims.length * 2;
+		this.numHeaderRows = this.colDims.length * 2; // add an additional row to label each dimension
 	}
 
 	/**
@@ -62,12 +57,7 @@ export class RendererTable {
 		let f = [];
 
 		f[0] = RendererTable.productUpper(values, idx);
-		if (idx < values.length) {
-			f[1] = RendererTable.productUpper(values, idx + 1);
-		}
-		else {
-			f[1] = 1;
-		}
+		f[1] = idx < values.length ? RendererTable.productUpper(values, idx + 1): 1;
 
 		return f;
 	}
@@ -126,6 +116,9 @@ export class RendererTable {
 		}
 	}
 
+	/**
+	 * Creates the row headers.
+	 */
 	rowHeaders() {
 		let row, tHead;
 
@@ -143,7 +136,7 @@ export class RendererTable {
 	 */
 	headerLabelCells(row) {
 		for (let k = 0; k < this.numLabelCols; k++) {
-			let label;
+			let label = null;
 
 			if (row.rowIndex === this.numHeaderRows - 1) { // last header row
 				label = this.jsonstat.getLabel(k);
@@ -153,24 +146,33 @@ export class RendererTable {
 	}
 
 	/**
-	 *
+	 * Creates the cells for the value headers.
 	 * @param {HTMLTableRowElement} row
 	 */
 	headerValueCells(row) {
-		let idx, dimIdx, f, catIdx, label;
+		let idx, dimIdx, f, catIdx, label, colspan;
 
 		idx = Math.floor(row.rowIndex / 2);
 		dimIdx = this.numRowDim + idx;
 		f = this._partials(this.colDims, idx);
 		for (let i = 0; i < this.numValueCols; i++) {
+			colspan = null;
 			if (row.rowIndex % 2 === 0) {
 				label = this.jsonstat.getLabel(dimIdx);
+				if (f[0] > 1) {
+					colspan = f[0];
+					i += (colspan - 1); // colspan - 1 -> i++ follows
+				}
 			}
 			else {
 				catIdx = Math.floor((i % f[0]) / f[1]);
 				label = this.jsonstat.getCategoryLabel(dimIdx, catIdx);
+				if (f[1] > 1) {
+					colspan = f[1];
+					i += (colspan - 1); // colspan - 1 -> i++ follows
+				}
 			}
-			RendererTable.headerCell(row, label, 'col');
+			RendererTable.headerCell(row, label, 'col', colspan);
 		}
 	}
 
@@ -179,7 +181,7 @@ export class RendererTable {
 	 * @param {HTMLTableRowElement} row
 	 */
 	labelCells(row) {
-		let rowIdx, f, catIdx, label;
+		let rowIdx, f, catIdx, label = null;
 
 		rowIdx = row.rowIndex - this.numHeaderRows;
 		for (let i = 0; i < this.numLabelCols; i++) {
@@ -217,15 +219,19 @@ export class RendererTable {
 	 * @param {HTMLTableRowElement} row
 	 * @param {String} [str]
 	 * @param {String} [scope]
+	 * @param [colspan] number of columns to span
 	 */
-	static headerCell(row, str, scope) {
+	static headerCell(row, str, scope = null, colspan = null) {
 		let cell = document.createElement('th');
 
-		if (scope !== undefined) {
+		if (scope !== null) {
 			cell.scope = scope;
 		}
-		if (str !== undefined) {
+		if (str !== null) {
 			cell.innerText = str;
+		}
+		if (colspan !== null) {
+			cell.colSpan = colspan;
 		}
 		row.appendChild(cell);
 	}
