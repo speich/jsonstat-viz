@@ -213,7 +213,7 @@ export class RendererTable {
 			cell.scope = scope;
 		}
 		if (str !== null) {
-			cell.innerText = str;
+			cell.innerHTML = str;
 		}
 		if (colspan !== null) {
 			cell.colSpan = colspan;
