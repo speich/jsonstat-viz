@@ -53,7 +53,7 @@ let app = {
 	init: function(json) {
 		this.reader = new JsonStat(json);
 		this.createSelect(this.reader.getNumDimensions());
-		this.createTable(0);
+		this.createTable(1);
 	}
 };
 
@@ -64,3 +64,4 @@ document.getElementById('source').addEventListener('change', evt => {
 });
 
 app.loadJsonStat('stammzahl.json').then(app.init.bind(app));
+//app.loadJsonStat('https://json-stat.org/samples/canada.json').then(app.init.bind(app));
