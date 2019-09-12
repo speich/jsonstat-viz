@@ -1,10 +1,16 @@
+table.jst-viz {
+	empty-cells: hide;
+	border-collapse: separate;
+	border-spacing: 0.6em 0.5em;
+}
+
 .jst-viz th, .jst-viz td {
-	border: 1px solid black;
-	padding: 0.2em 0.3em;
+	padding: 0.6em 0.2em;
 }
 
 .jst-viz th {
-	background-color: #eeeeee;
+	font-size: smaller;
+	border-bottom: 1px solid black;
 }
 
 .jst-viz td {
