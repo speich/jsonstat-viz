@@ -1,5 +1,5 @@
-import {RendererTable} from '/RendererTable.js';
-import {JsonStat} from '/JsonStat.js';
+import {RendererTable} from './RendererTable.js';
+import {JsonStat} from './JsonStat.js';
 
 let app = {
 	reader: null,
@@ -53,7 +53,7 @@ let app = {
 	init: function(json) {
 		this.reader = new JsonStat(json);
 		this.createSelect(this.reader.getNumDimensions());
-		this.createTable(2);
+		this.createTable(0);
 	}
 };
 
