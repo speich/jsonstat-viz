@@ -7,7 +7,7 @@
  * Setting the property numRowDim defines which dimensions are used for label columns and which for the value columns.
  */
 export class RendererTable {
-	// auto: if dimension has role attribute 'geo' use it as the columns of the table
+	// TODO: auto: if dimension has role attribute 'geo' use it as the columns of the table
 
 	/**
 	 *
@@ -168,7 +168,8 @@ export class RendererTable {
 	}
 
 	/**
-	 *
+	 * Appends the label of the row.
+	 * Inserts the label as a HTMLTableHeaderEleem
 	 * @param {HTMLTableRowElement} row
 	 */
 	labelCells(row) {
@@ -188,7 +189,8 @@ export class RendererTable {
 	}
 
 	/**
-	 *
+	 * Appends the value at offset as a cell.
+	 * Inserts a HTMLTableCellElement at the end of the row with a value taken from the values at given offset.
 	 * @param {HTMLTableRowElement} row
 	 * @param offset
 	 */
@@ -200,6 +202,7 @@ export class RendererTable {
 	}
 
 	/**
+	 * Create and returns a header cell element.
 	 * @param {String} [str]
 	 * @param {String} [scope]
 	 * @param [colspan] number of columns to span
