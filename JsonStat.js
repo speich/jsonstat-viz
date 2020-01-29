@@ -3,10 +3,20 @@ export class JsonStat {
 		this.data = jsonstat;
 	}
 
+	/**
+	 * Returns the id of a dimension by its index.
+	 * @param dimIdx dimension index
+	 * @return {*}
+	 */
 	getId(dimIdx) {
 		return this.data.id[dimIdx];
 	}
 
+	/**
+	 * Returns the label of a dimension by its index.
+	 * @param dimIdx dimension index
+	 * @return {void|string}
+	 */
 	getLabel(dimIdx) {
 		let dim;
 
@@ -15,16 +25,30 @@ export class JsonStat {
 		return this.escapeHtml(dim.label);
 	}
 
+	/**
+	 * Returns the number of dimensions.
+	 * @return {number}
+	 */
 	getNumDimensions() {
 
 		return this.data.size.length;
 	}
 
+	/**
+	 * Returns the number of values.
+	 * @return {number}
+	 */
 	getNumValues() {
 
 		return this.data.value.length;
 	}
 
+	/**
+	 * Returns the label of a category of a dimension by dimension index and category index.
+	 * @param dimIdx dimension index
+	 * @param labelIdx label index
+	 * @return {void|string}
+	 */
 	getCategoryLabel(dimIdx, labelIdx) {
 		let dim, id, label;
 
