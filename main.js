@@ -64,4 +64,5 @@ document.getElementById('source').addEventListener('change', evt => {
 });
 
 app.loadJsonStat('vorrat.json').then(app.init.bind(app));
+// TODO: should also work with object instead of array
 //app.loadJsonStat('https://json-stat.org/samples/canada.json').then(app.init.bind(app));

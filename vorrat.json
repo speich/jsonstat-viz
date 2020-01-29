@@ -1,15 +1,13 @@
 {
   "version": "2.0",
   "class": "dataset",
-  "id": ["BHDKL", "LBHNDH123", "PRODREG", "concept"],
-  "size": [6, 3, 6, 2],
+  "id": ["INV","BHDKL", "LBHNDH123", "PRODREG", "concept"],
+  "size": [1, 6, 3, 6, 2],
   "role": {
-    "geo": [
-      "PRODREG"
-    ],
-    "metric": [
-      "concept"
-    ]
+    "geo": ["PRODREG"],
+    "metric": ["concept"],
+    "time": ["INV"],
+    "class": ["BHDKL", "LBHNDH123"]
   },
   "extension": {
     "url-table": "https://www.lfi.ch/resultate/resultate-en.php?p=reg&zigrNr=21&befNr=1090&regionNr=49&prodNr=32&prodItNr=189147",

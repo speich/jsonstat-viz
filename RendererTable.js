@@ -8,6 +8,7 @@
  */
 export class RendererTable {
 	// TODO: auto: if dimension has role attribute 'geo' use it as the columns of the table
+	// TODO: handle case when json-stat index is an object instead of an array
 
 	/**
 	 *
@@ -48,6 +49,8 @@ export class RendererTable {
 
 	/**
 	 * Calculate two products from array values.
+	 * The first returned value is the product of all values with an element index equal or higher than the passed one, the
+	 * second is the product of all values with an index higher. If it is the last element then the product is 1.
 	 * @param {Array} values
 	 * @param idx element index
 	 * @return {Array}
@@ -57,13 +60,13 @@ export class RendererTable {
 		let f = [];
 
 		f[0] = RendererTable.productUpper(values, idx);
-		f[1] = idx < values.length ? RendererTable.productUpper(values, idx + 1): 1;
+		f[1] = idx < values.length ? RendererTable.productUpper(values, idx + 1) : 1;
 
 		return f;
 	}
 
 	/**
-	 * Calculates the product of all array elements with an index higher than the passed one.
+	 * Calculates the product of all array values with an element index equal or higher than the passed one.
 	 * @param {Array} values
 	 * @param idx element index
 	 * @return {number}
@@ -79,6 +82,11 @@ export class RendererTable {
 		return num;
 	}
 
+	/**
+	 * Renders the data as a html table.
+	 * Reads the value array and renders it as a table.
+	 * @return {HTMLTableElement}
+	 */
 	render() {
 		this.init();
 		this.rowHeaders();
@@ -87,6 +95,23 @@ export class RendererTable {
 		return this.table;
 	}
 
+	/**
+	 * Creates the table head and appends header cells row by row to it.
+	 */
+	rowHeaders() {
+		let row, tHead;
+
+		tHead = this.table.createTHead();
+		for (let rowIdx = 0; rowIdx < this.numHeaderRows; rowIdx++) {
+			row = tHead.insertRow();
+			this.headerLabelCells(row);
+			this.headerValueCells(row);
+		}
+	}
+
+	/**
+	 * Creates the table body and appends table cells row by row to it.
+	 */
 	rows() {
 		let tBody, row;
 
@@ -97,20 +122,6 @@ export class RendererTable {
 				this.labelCells(row);
 			}
 			this.valueCells(row, offset);
-		}
-	}
-
-	/**
-	 * Creates the row headers.
-	 */
-	rowHeaders() {
-		let row, tHead;
-
-		tHead = this.table.createTHead();
-		for (let rowIdx = 0; rowIdx < this.numHeaderRows; rowIdx++) {
-			row = tHead.insertRow();
-			this.headerLabelCells(row);
-			this.headerValueCells(row);
 		}
 	}
 
