@@ -24,10 +24,11 @@ export class RendererTable {
 	}
 
 	init() {
+		// TODO skip/exclude dimensions of length, since they are not in the values, use them for caption
 		// cache some often used numbers before rendering table
 		this.rowDims = this.jsonstat.data.size.slice(0, this.numRowDim);
 		this.colDims = this.jsonstat.data.size.slice(this.numRowDim);
-		this.numValueCols = this.colDims.length > 0 ? RendererTable.product(this.colDims): 1;
+		this.numValueCols = this.colDims.length > 0 ? RendererTable.product(this.colDims) : 1;
 		this.numLabelCols = this.rowDims.length;
 		this.numHeaderRows = this.colDims.length > 0 ? this.colDims.length * 2 : 1; // add an additional row to label each dimension
 	}
@@ -214,8 +215,8 @@ export class RendererTable {
 
 	/**
 	 * Create and returns a header cell element.
-	 * @param {String} [str]
-	 * @param {String} [scope]
+	 * @param {String} [str] cell content
+	 * @param {String} [scope] scope of cell
 	 * @param [colspan] number of columns to span
 	 * @param [rowspan] number of rows to span
 	 * @return {HTMLTableCellElement}
