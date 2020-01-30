@@ -81,7 +81,7 @@ export class RendererTable {
 		let f = [];
 
 		f[0] = RendererTable.productUpper(values, idx);
-		f[1] = idx < values.length ? RendererTable.productUpper(values, idx + 1): 1;
+		f[1] = idx < values.length ? RendererTable.productUpper(values, idx + 1) : 1;
 
 		return f;
 	}
