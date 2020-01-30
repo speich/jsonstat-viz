@@ -2,6 +2,11 @@
  * Class to work with jsonstat.org files.
  */
 export class JsonStat {
+
+	/**
+	 *
+	 * @param {Object} jsonstat
+	 */
 	constructor(jsonstat) {
 		this.data = jsonstat;
 	}
@@ -70,7 +75,7 @@ export class JsonStat {
 
 	/**
 	 * Escape a string so it can be safely inserted into html.
-	 * @param text
+	 * @param {String} text
 	 * @return {void|string}
 	 */
 	escapeHtml(text) {

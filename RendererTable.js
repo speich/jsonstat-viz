@@ -13,11 +13,12 @@ export class RendererTable {
 	/**
 	 *
 	 * @param {JsonStat} jsonstat
+	 * @param {Number} numRowDim
 	 */
-	constructor(jsonstat) {
+	constructor(jsonstat, numRowDim) {
 		this.colDims = [];
 		this.rowDims = [];
-		this.numRowDim = 2;
+		this.numRowDim = numRowDim;
 		this.jsonstat = jsonstat;
 		this.table = document.createElement('table');
 		this.table.classList.add('jst-viz');
@@ -26,11 +27,30 @@ export class RendererTable {
 	init() {
 		// TODO skip/exclude dimensions of length, since they are not in the values, use them for caption
 		// cache some often used numbers before rendering table
-		this.rowDims = this.jsonstat.data.size.slice(0, this.numRowDim);
-		this.colDims = this.jsonstat.data.size.slice(this.numRowDim);
+		let dims = this.jsonstat.data.size;
+
+		this.rowDims = this.getDims(dims, 'row');
+		this.colDims = this.getDims(dims, 'col');
+		this.numContDim = dims.length - this.rowDims.length - this.colDims.length;
 		this.numValueCols = this.colDims.length > 0 ? RendererTable.product(this.colDims) : 1;
 		this.numLabelCols = this.rowDims.length;
-		this.numHeaderRows = this.colDims.length > 0 ? this.colDims.length * 2 : 1; // add an additional row to label each dimension
+		this.numHeaderRows = this.colDims.length > 0 ? this.colDims.length * 2: 1; // add an additional row to label each dimension
+	}
+
+	/**
+	 * Returns the dimensions used for rows or cols.
+	 * Constant dimensions (e.g. of length 1) are excluded.
+	 * @param {Array} dims
+	 * @param {String} type 'row' or 'col'
+	 */
+	getDims(dims, type) {
+		let rowDims;
+
+		rowDims = dims.filter(value => {
+			return value > 1;
+		});
+
+		return type === 'row' ? rowDims.slice(0, this.numRowDim) : rowDims.slice(this.numRowDim);
 	}
 
 	/**
@@ -61,7 +81,7 @@ export class RendererTable {
 		let f = [];
 
 		f[0] = RendererTable.productUpper(values, idx);
-		f[1] = idx < values.length ? RendererTable.productUpper(values, idx + 1) : 1;
+		f[1] = idx < values.length ? RendererTable.productUpper(values, idx + 1): 1;
 
 		return f;
 	}
@@ -90,6 +110,7 @@ export class RendererTable {
 	 */
 	render() {
 		this.init();
+		this.caption();
 		this.rowHeaders();
 		this.rows();
 
@@ -135,7 +156,7 @@ export class RendererTable {
 			let cell, label = null, scope = null;
 
 			if (row.rowIndex === this.numHeaderRows - 1) { // last header row
-				label = this.jsonstat.getLabel(k);
+				label = this.jsonstat.getLabel(this.numContDim + k);
 				scope = 'col';
 			}
 			cell = RendererTable.headerCell(label, scope);
@@ -158,7 +179,7 @@ export class RendererTable {
 		}
 
 		idx = Math.floor(row.rowIndex / 2); // 0,1,2,3,... -> 0,0,1,1,2,2,...
-		dimIdx = this.numRowDim + idx;
+		dimIdx = this.numContDim + this.numRowDim + idx;
 		f = this._partials(this.colDims, idx);
 		for (let i = 0; i < this.numValueCols; i++) {
 			colspan = null;
@@ -192,8 +213,8 @@ export class RendererTable {
 			f = this._partials(this.rowDims, i);
 			if (rowIdx % f[1] === 0) {
 				catIdx = Math.floor(rowIdx % f[0] / f[1]);
-				label = this.jsonstat.getCategoryLabel(i, catIdx);
-				rowspan = f[1] > 1 ? f[1] : null;
+				label = this.jsonstat.getCategoryLabel(this.numContDim + i, catIdx);
+				rowspan = f[1] > 1 ? f[1]: null;
 				cell = RendererTable.headerCell(label, 'row', null, rowspan);
 				row.appendChild(cell);
 			}
@@ -207,10 +228,10 @@ export class RendererTable {
 	 * @param offset
 	 */
 	valueCells(row, offset) {
-		let cell, val = this.jsonstat.data.value[offset];
+		let cell, stat = this.jsonstat;
 
 		cell = row.insertCell();
-		cell.innerHTML = val;
+		cell.textContent = stat.data.value[offset]; // not need to escape
 	}
 
 	/**
@@ -238,5 +259,17 @@ export class RendererTable {
 		}
 
 		return cell;
+	}
+
+	/**
+	 * Creates and inserts a caption.
+	 * @return {HTMLTableCaptionElement}
+	 */
+	caption() {
+		let caption = this.table.createCaption();
+
+		caption.innerHTML = this.jsonstat.escapeHtml(this.jsonstat.data.label);
+
+		return caption;
 	}
 }

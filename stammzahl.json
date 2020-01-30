@@ -1,6 +1,7 @@
 {
     "version": "2.0",
     "class": "dataset",
+    "label": "stem number: tree species (5 classes) · production region. production region. NFI4b 2009/13",
     "id": ["HAHBART", "PRODREG", "concept"],
     "size": [6, 6, 2],
     "role": {
@@ -25,7 +26,7 @@
     "extension": {
         "skip": "we could use the extension property to indicate which rows to hide/skip",
         "url-orig": "https://www.lfi.ch/resultate/resultate-en.php?p=theme&zigrNr=73&befNr=1157&regionNr=49&auswNr=434&prodNr=32&prodItNr=130970",
-        "url-json": "https://www.lfi.ch/doctemp/stammzahl.json"
+        "url-json": "https://www.lfi.ch/temp/stammzahl.json"
     },
     "dimension": {
         "PRODREG": {

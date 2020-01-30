@@ -44,16 +44,25 @@ let app = {
 	createTable: function(numRowDim) {
 		let renderer, table;
 
-		renderer = new RendererTable(this.reader);
-		renderer.numRowDim = numRowDim;
+		renderer = new RendererTable(this.reader, numRowDim);
+		renderer.init();
 		table = renderer.render();
 		document.body.appendChild(table);
 	},
 
+	/**
+	 *
+	 * @param {Object} json
+	 */
 	init: function(json) {
+		let renderer, table;
+
 		this.reader = new JsonStat(json);
-		this.createSelect(this.reader.getNumDimensions());
-		this.createTable(0);
+		renderer = new RendererTable(this.reader, 0);
+		renderer.init();
+		this.createSelect(this.reader.getNumDimensions() - renderer.numContDim);
+		table = renderer.render();
+		document.body.appendChild(table);
 	}
 };
 
