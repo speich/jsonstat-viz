@@ -20,3 +20,8 @@ table.jst-viz {
 .jst-viz th[scope="row"] {
 	text-align: left;
 }
+
+.jst-viz caption {
+	font-weight: bold;
+	text-align: left;
+}

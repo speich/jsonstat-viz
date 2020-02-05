@@ -3,7 +3,6 @@
  * @see www.json-stat.org
  * A table consists of a number of dimensions that are used to define the rows of the table (referred to as label columns)
  * and a number of dimensions that are used to define the columns of the table (referred to as value columns).
- *
  * Setting the property numRowDim defines which dimensions are used for label columns and which for the value columns.
  */
 export class RendererTable {
@@ -11,15 +10,19 @@ export class RendererTable {
 	// TODO: handle case when json-stat index is an object instead of an array
 
 	/**
-	 *
+	 * @property {Array} colDims dimensions used for columns
+	 * @property {Array} rowDims column dimensions used for rows
+	 * @property {JsonStat} jsonstat
+	 * @property {Number} numRowDim number of row dimensions
+	 * @property {HTMLTableElement} table
 	 * @param {JsonStat} jsonstat
-	 * @param {Number} numRowDim
+	 * @param {Number} numRowDim number of row dimensions
 	 */
 	constructor(jsonstat, numRowDim) {
 		this.colDims = [];
 		this.rowDims = [];
-		this.numRowDim = numRowDim;
 		this.jsonstat = jsonstat;
+		this.numRowDim = numRowDim;
 		this.table = document.createElement('table');
 		this.table.classList.add('jst-viz');
 	}

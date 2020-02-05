@@ -4,7 +4,7 @@
 export class JsonStat {
 
 	/**
-	 *
+	 * @property {Object} jsonstat
 	 * @param {Object} jsonstat
 	 */
 	constructor(jsonstat) {
@@ -35,7 +35,7 @@ export class JsonStat {
 
 	/**
 	 * Returns the number of dimensions.
-	 * @return {number}
+	 * @return {Number}
 	 */
 	getNumDimensions() {
 
@@ -44,7 +44,7 @@ export class JsonStat {
 
 	/**
 	 * Returns the number of values.
-	 * @return {number}
+	 * @return {Number}
 	 */
 	getNumValues() {
 
@@ -55,7 +55,7 @@ export class JsonStat {
 	 * Returns the label of a category of a dimension by dimension index and category index.
 	 * @param {Number} dimIdx dimension index
 	 * @param {Number} [labelIdx] label index
-	 * @return {void|string}
+	 * @return {void|String}
 	 */
 	getCategoryLabel(dimIdx, labelIdx = null) {
 		let dim, id, label, keys;
@@ -76,7 +76,7 @@ export class JsonStat {
 	/**
 	 * Escape a string so it can be safely inserted into html.
 	 * @param {String} text
-	 * @return {void|string}
+	 * @return {void|String}
 	 */
 	escapeHtml(text) {
 		// @see https://stackoverflow.com/questions/1787322/htmlspecialchars-equivalent-in-javascript/4835406#4835406
