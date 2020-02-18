@@ -1,0 +1,171 @@
+{
+	"version": "2.0",
+	"class": "dataset",
+	"label": "Jungwaldpflanzen mit Verbiss geteilt durch Jungwaldpflanzen Gesamtanzahl: Hangmure/Rutschung SilvaProtect · Jungwaldklasse (5 Klassen) · Hauptbaumart im Jungwald. Produktionsregion. LFI4b 2009/13",
+	"source": "© WSL, Schweizerisches Landesforstinventar, 25.06.2015",
+	"updated": "2015-06-25T12:30:02Z",
+	"id": ["period", "N4P12345", "PRODREG", "JWKLASSE2", "JWHBART1234", "SWSPGESHAMU", "concept"],
+	"size": [1, 1, 1, 2, 14, 4, 2],
+	"role": {
+		"geo": ["PRODREG"],
+		"metric": ["concept"],
+		"time": ["period"]
+	},
+	"extension": {
+		"url-table": "https://www.lfi.ch/resultate/resultate.php?prodNr=32&prodItNr=200881&lang=de"
+	},
+	"value": [
+		2,1,0,".",3,1,2,1,
+		15,3,32,13,31,7,19,3,
+		10,7,0,".",0,".",6,5,
+		13,3,".",".",0,".",10,3,
+		0,".",".",".",0,".",0,".",
+		0,".",".",".",0,".",0,".",
+		2,1,4,3,4,1,3,1,
+		14,2,43,10,22,3,17,2,
+		11,1,18,3,24,3,15,1,
+		42,10,0,".",10,7,39,10,
+		0,".",0,".",17,10,9,7,
+		23,3,33,9,32,6,26,3,
+		25,5,22,14,12,5,20,4,
+		11,1,15,4,17,2,12,1,
+		2,1,1,1,3,1,2,1,
+		16,2,31,13,28,6,19,2,
+		9,4,0,".",0,".",6,3,
+		9,3,0,".",6,4,8,2,
+		0,".",0,".",0,".",0,".",
+		0,".",".",".",0,".",0,".",
+		3,1,4,2,5,1,3,1,
+		17,2,43,10,22,3,19,2,
+		13,1,21,3,26,3,17,1,
+		42,9,0,".",16,5,39,9,
+		21,17,6,6,15,9,12,6,
+		23,2,30,7,32,5,26,2,
+		25,4,18,8,16,5,21,3,
+		12,1,16,4,17,2,13,1
+	],
+	"dimension": {
+		"PRODREG": {
+			"label": "Aussageeinheit",
+			"category": {
+				"label": {
+					"1": "Produktionsregion"
+				}
+			},
+			"extension": {
+				"type": "abl",
+				"VARNR": 49,
+				"TABNR": 6
+			}
+		},
+		"JWKLASSE2": {
+			"label": "Jungwaldklasse (5 Klassen)",
+			"category": {
+				"index": ["0", "999999"],
+				"label": {
+					"0": "Höhe >= 10cm bis < 40cm",
+					"999999": "Total"
+				}
+			},
+			"extension": {
+				"type": "abl",
+				"VARNR": 1665,
+				"TABNR": 371
+			}
+		},
+		"JWHBART1234": {
+			"label": "Hauptbaumart im Jungwald",
+			"category": {
+				"index": ["9", "10", "4","103", "5","60","7","2","95","20","11","12","31","999999"],
+				"label": {
+					"9": "Fichte",
+					"10": "Tanne",
+					"4": "Föhre",
+					"103": "Lärche",
+					"5": "Arve",
+					"60": "übrige Nadelhölzer",
+					"7": "Buche",
+					"2": "Ahorn",
+					"95": "Esche",
+					"20": "Eiche",
+					"11": "Kastanie",
+					"12": "übrige Laubhölzer",
+					"31": "nicht in allen Inventuren erhobene Arten",
+					"999999": "Total"
+				}
+			},
+			"extension": {
+				"type": "abl",
+				"VARNR": 1632,
+				"TABNR": 371
+			}
+		},
+		"SWSPGESHAMU": {
+			"label": "Hangmure/Rutschung SilvaProtect",
+			"category": {
+				"index": ["1", "2", "3", "999999"],
+				"label": {
+					"1": "keine Angabe",
+					"2": "innerhalb Perimeter",
+					"3": "ausserhalb Perimeter",
+					"999999": "Total"
+				}
+			},
+			"extension": {
+				"type": "abl",
+				"VARNR": 1846,
+				"TABNR": 0
+			}
+		},
+		"concept": {
+			"label": "Jungwaldpflanzen mit Verbiss geteilt durch Jungwaldpflanzen Gesamtanzahl",
+			"category": {
+				"index": ["1", "2"],
+				"label": {
+					"1": "%",
+					"2": "±"
+				},
+				"unit": {
+					"1": {
+						"decimals": 0,
+						"multiplier": 1
+					},
+					"2": {
+						"decimals": 0,
+						"multiplier": 1
+					}
+				}
+			},
+			"extension": {
+				"type": "zigr",
+				"ZIGRNR": [193, 194],
+				"TABNR": 5
+			}
+		},
+		"period": {
+			"label": "Inventur",
+			"category": {
+				"label": {
+					"1": "LFI4b, Zustand 2009/13"
+				}
+			},
+			"extension": {
+				"type": "inv",
+				"INVNR": 452
+			}
+		},
+		"N4P12345": {
+			"label": "Netz",
+			"category": {
+				"label": {
+					"1": "Netz LFI4 2009-2013"
+				}
+			},
+			"extension": {
+				"type": "abl",
+				"VARNR": 1746,
+				"TABNR": 1
+			}
+		}
+	}
+}

@@ -15,12 +15,14 @@ let app = {
 
 		select = document.createElement('select');
 		select.id = 'numDim';
+		select.autocomplete = 'off';
 		for (let i = 0; i < numDims + 1; i++) {
 			option = document.createElement('option');
 			option.text = i;
 			option.value = i;
 			select.add(option);
 		}
+		select.options[1].selected = true;
 		select.addEventListener('change', (evt) => {
 			this.removeTable();
 			this.createTable(parseInt(evt.target.value));
@@ -58,7 +60,7 @@ let app = {
 		let renderer, table;
 
 		this.reader = new JsonStat(json);
-		renderer = new RendererTable(this.reader, 0);
+		renderer = new RendererTable(this.reader, 1);
 		renderer.init();
 		this.createSelect(this.reader.getNumDimensions() - renderer.numContDim);
 		table = renderer.render();

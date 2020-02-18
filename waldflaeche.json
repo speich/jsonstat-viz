@@ -1,0 +1,129 @@
+{
+	"version": "2.0",
+	"class": "dataset",
+	"label": "Waldfläche: Verjüngungsdeckungsgrad · Vegetationshöhenstufe. Produktionsregion. LFI4b 2009/13",
+	"source": "© WSL, Schweizerisches Landesforstinventar, 30.10.2014 ",
+	"updated": "2014-10-30T12:30:02Z",
+	"id": ["period", "N4P12345", "PRODREG", "HOESTUFW", "VERJDG", "concept"],
+	"size": [1, 1, 1, 6, 7, 2],
+	"role": {
+		"geo": ["PRODREG"],
+		"metric": ["concept"],
+		"time": ["period"]
+	},
+	"extension": {
+		"url-table": "https://www.lfi.ch/resultate/resultate.php?prodNr=32&prodItNr=135147&lang=de"
+	},
+	"value": [
+		11.4,2.4,10.6,1.0,6.4,0.8,3.1,0.7,0.5,0.4,0.9,0.5,6.2,0.4,
+		32.2,3.5,30.6,1.4,21.9,1.3,16.2,1.5,13.1,1.8,6.1,1.4,21.6,0.7,
+		26.5,3.3,24.8,1.4,25.2,1.4,25.8,1.8,22.9,2.2,12.9,1.9,23.9,0.7,
+		15.6,2.8,17.5,1.2,21.8,1.3,26.3,1.8,23.9,2.3,32.2,2.7,22.2,0.7,
+		14.4,2.6,16.4,1.2,24.7,1.4,28.7,1.8,39.5,2.5,47.8,2.9,26.0,0.7,
+		100.0,".","100.0",".",100.0,".",100.0,".",100.0,".",100.0,".",100.0,"."
+	],
+	"dimension": {
+		"period": {
+			"label": "Inventur",
+			"category": {
+				"label": {
+					"1": "LFI4b, Zustand 2009/13"
+				}
+			},
+			"extension": {
+				"type": "inv",
+				"INVNR": 452
+			}
+		},
+		"N4P12345": {
+			"label": "Netz",
+			"category": {
+				"label": {
+					"1": "Netz LFI4 2009-2013"
+				}
+			},
+			"extension": {
+				"type": "abl",
+				"VARNR": 1746,
+				"TABNR": 1
+			}
+		},
+		"PRODREG": {
+			"label": "Aussageeinheit",
+			"category": {
+				"label": {
+					"1": "Produktionsregion"
+				}
+			},
+			"extension": {
+				"type": "abl",
+				"VARNR": 49,
+				"TABNR": 6
+			}
+		},
+		"HOESTUFW": {
+			"label": "Vegetationshöhenstufe",
+			"category": {
+				"index": ["1", "2", "3", "4", "5", "999999"],
+				"label": {
+					"1": "obere subalpine",
+					"2": "untere subalpine",
+					"3": "obere montane",
+					"4": "untere montane",
+					"5": "kolline/submontane",
+					"999999": "Total"
+				}
+			},
+			"extension": {
+				"type": "abl",
+				"VARNR": 1090,
+				"TABNR": 5
+			}
+		},
+		"VERJDG": {
+			"label": "Verjüngungsdeckungsgrad",
+			"category": {
+				"index": ["0", "1", "2", "3", "4", "5", "999999"],
+				"label": {
+					"0": "< 1%",
+					"1": "1-9%",
+					"2": "10-25%",
+					"3": "26-50%",
+					"4": "51-75%",
+					"5": "76-100%",
+					"999999": "Total"
+				}
+			},
+			"extension": {
+				"type": "abl",
+				"VARNR": 1029,
+				"TABNR": 5
+			}
+		},
+		"concept": {
+			"label": "Waldfläche",
+			"category": {
+				"index": ["1", "2"],
+				"label": {
+					"1": "%",
+					"2": "±"
+				},
+				"unit": {
+					"1": {
+						"decimals": 1,
+						"multiplier": 1
+					},
+					"2": {
+						"decimals": 1,
+						"multiplier": 1
+					}
+				}
+			},
+			"extension": {
+				"type": "zigr",
+				"ZIGRNR": 44,
+				"TABNR": 5
+			}
+		}
+	}
+}
