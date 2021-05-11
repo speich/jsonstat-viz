@@ -1,79 +1,181 @@
-import {RendererTable} from './RendererTable.js';
-import {JsonStat} from './JsonStat.js';
+import { RendererTable } from './RendererTable.js';
+import { JsonStat } from './JsonStat.js';
 
 let app = {
-	reader: null,
+  reader: null,
 
-	loadJsonStat: function(url) {
-		return fetch(url).then(response => {
-			return response.json();
-		});
-	},
+  resources: [
+    ['vorrat.json', 'Vorrat'],
+    ['stammzahl.json', 'Stammzahl'],
+    ['waldflaeche.json', 'Waldfläche'],
+    ['jungwald.json', 'Jungwald'],
+    ['https://json-stat.org/samples/oecd.json', 'OECD'],
+    ['https://json-stat.org/samples/canada.json', 'Canada'],
+    ['https://json-stat.org/samples/galicia.json', 'Galicia']
+  ],
 
-	createSelect: function(numDims) {
-		let option, select;
+  /**
+   * Loads the resource and returns the json.
+   * @param {string} url
+   * @return {Promise<object>}
+   */
+  loadJsonStat: function(url) {
+    return fetch(url).then(response => {
+      return response.json();
+    });
+  },
 
-		select = document.createElement('select');
-		select.id = 'numDim';
-		select.autocomplete = 'off';
-		for (let i = 0; i < numDims + 1; i++) {
-			option = document.createElement('option');
-			option.text = i;
-			option.value = i;
-			select.add(option);
-		}
-		select.options[1].selected = true;
-		select.addEventListener('change', (evt) => {
-			this.removeTable();
-			this.createTable(parseInt(evt.target.value));
-		});
+  /**
+   * Creates a select element from the passed data.
+   * @param {string} id id attribute
+   * @param {array} data 2-dim array
+   * @return {HTMLSelectElement}
+   */
+  createSelect: function(id, data) {
+    let option, select;
 
-		document.body.appendChild(select);
-	},
+    select = document.createElement('select');
+    select.id = id;
+    select.autocomplete = 'off';
+    data.forEach(i => {
+      option = document.createElement('option');
+      option.value = i[0];
+      option.text = i[1];
+      select.add(option);
+    });
 
-	removeTable: function() {
-		let table = document.querySelector('table');
+    return select;
+  },
 
-		table.parentNode.removeChild(table);
-	},
+  /**
+   * Wrap select element with a label.
+   * @param {string} label
+   * @param {HTMLSelectElement} select
+   * @return {HTMLLabelElement}
+   */
+  wrapInLabel: function(label, select) {
+    let el = document.createElement('label');
 
-	removeSelect: function() {
-		let select = document.getElementById('numDim');
+    el.innerHTML = label;
+    el.appendChild(select);
 
-		select.parentNode.removeChild(select);
-	},
+    return el;
+  },
 
-	createTable: function(numRowDim) {
-		let renderer, table;
+  /**
+   * Creates the select data for the number of row dimensions.
+   * @return {Array}
+   */
+  createOptionData: function() {
+    let len = this.reader.getDimensionSizes().length,
+      data = Array(len);
 
-		renderer = new RendererTable(this.reader, numRowDim);
-		renderer.init();
-		table = renderer.render();
-		document.body.appendChild(table);
-	},
+    return Array.from(data, (e, i) => [i, i]);
+  },
 
-	/**
-	 *
-	 * @param {Object} json
-	 */
-	init: function(json) {
-		let renderer, table;
+  removeTable: function() {
+    let table = document.querySelector('.jst-viz');
 
-		this.reader = new JsonStat(json);
-		renderer = new RendererTable(this.reader, 1);
-		renderer.init();
-		this.createSelect(this.reader.getNumDimensions() - renderer.numContDim);
-		table = renderer.render();
-		document.body.appendChild(table);
-	}
+    table.parentNode.removeChild(table);
+  },
+
+  removeSelect: function(select) {
+    select.parentNode.removeChild(select);
+  },
+
+  createTable: function(numRowDim) {
+    let renderer, table;
+
+    renderer = new RendererTable(this.reader, numRowDim);
+    renderer.init();
+    table = renderer.render();
+    document.body.appendChild(table);
+  },
+
+  /**
+   *
+   */
+  initForm: function() {
+    let el;
+
+    el = this.createSelectSource();
+    el.options[1].selected = true;
+    el = this.wrapInLabel('select source', el);
+    document.body.appendChild(el);
+
+    el = this.createSelectNumDim();
+    el.options[1].selected = true;
+    el = this.wrapInLabel('row dimensions', el);
+    document.body.appendChild(el);
+  },
+
+  update: function(json) {
+    let el, numRowDim = 1;
+
+    this.reader = new JsonStat(json);
+
+    el = document.getElementById('numDim');
+    this.removeSelect(el);
+    el = this.createSelectNumDim();
+    el.options[numRowDim].selected = true;
+    document.body.appendChild(el);
+
+    this.removeTable();
+    this.createTable(numRowDim);
+  },
+
+  getSelectedNumRowDim: function() {
+    let num;
+
+    num = document.getElementById('numDim').value;
+
+    return parseInt(num);
+  },
+
+  createSelectSource: function() {
+    let el;
+
+    el = this.createSelect('source', this.resources);
+
+    el.addEventListener('change', evt => {
+      app.loadJsonStat(evt.target.value).then((json) => {
+        app.update(json);
+      });
+    });
+
+    return el;
+  },
+
+  createSelectNumDim: function() {
+    let el, data;
+
+    data = this.createOptionData();
+    el = this.createSelect('numDim', data);
+
+    el.addEventListener('change', (evt) => {
+      app.removeTable();
+      app.createTable(parseInt(evt.target.value));
+    });
+
+    return el;
+  },
+
+  /**
+   *
+   * @param {Object} json
+   * @param numRowDim number of row dimensions
+   */
+  init: function(json, numRowDim) {
+    this.reader = new JsonStat(json);
+    this.initForm();
+    this.createTable(numRowDim);
+  }
 };
 
-document.getElementById('source').addEventListener('change', evt => {
-	app.removeSelect();
-	app.removeTable();
-	app.loadJsonStat(evt.target.value).then(app.init.bind(app));
-});
+app.loadJsonStat('stammzahl.json').then((json) => {
+  let numRowDim = 1;
 
-app.loadJsonStat('vorrat.json').then(app.init.bind(app));
+  app.init(json, numRowDim);
+});
 // TODO: should also work with object instead of array
 //app.loadJsonStat('https://json-stat.org/samples/canada.json').then(app.init.bind(app));
