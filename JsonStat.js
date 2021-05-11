@@ -34,12 +34,16 @@ export class JsonStat {
 	}
 
 	/**
-	 * Returns the number of dimensions.
-	 * @return {Number}
+	 * Return list with the sizes of the dimensions.
+	 * @param {Boolean} excludeSizeOne exclude dimensions of size one
+	 * @return {Array}
 	 */
-	getNumDimensions() {
+	getDimensionSizes(excludeSizeOne = true) {
+		let size = excludeSizeOne ? 1 : 0;
 
-		return this.data.size.length;
+		return this.data.size.filter(value => {
+			return value > size;
+		});
 	}
 
 	/**
@@ -58,12 +62,13 @@ export class JsonStat {
 	 * @return {void|String}
 	 */
 	getCategoryLabel(dimIdx, labelIdx = null) {
-		let dim, id, label, keys;
+		let dim, index, id, label, keys;
 
 		dim = this.data.dimension[this.getId(dimIdx)];
-		if (dim.category.index) {
-			id = dim.category.index[labelIdx];
-			label = dim.category.label[id];
+		index = dim.category.index;
+		if (index) {
+			id =  Array.isArray(index) ? index[labelIdx] : this._categoryIdFromObject(index, labelIdx);
+			label = dim.category.label ? dim.category.label[id] : id;
 		}
 		else {  // e.g. constant dimension with single category and no index, label is required
 			keys = Object.keys(dim.category.label);
@@ -71,6 +76,11 @@ export class JsonStat {
 		}
 
 		return this.escapeHtml(label);
+	}
+
+	_categoryIdFromObject(obj, labelIdx) {
+
+		return Object.keys(obj).find(key => obj[key] === labelIdx);
 	}
 
 	/**

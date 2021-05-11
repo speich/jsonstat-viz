@@ -1,7 +1,6 @@
 table.jst-viz {
 	empty-cells: hide;
-	border-collapse: separate;
-	border-spacing: 0.6em 0.5em;
+	border-collapse: collapse;
 }
 
 .jst-viz th, .jst-viz td {
