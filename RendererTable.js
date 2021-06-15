@@ -176,7 +176,7 @@ export class RendererTable {
    * @param rowIdx
    */
   headerValueCells(row, rowIdx) {
-    let cell, z, idx, dimIdx, f, catIdx, label, colspan;
+    let cell, z, idx, dimIdx, f, catIdx, label, colspan, scope;
 
     if (this.colDims.length === 0) {
       cell = RendererTable.headerCell();
@@ -190,6 +190,7 @@ export class RendererTable {
     f = this._partials(this.colDims, idx);
     for (let i = 0; i < this.numValueCols; i++) {
       colspan = null;
+      scope = 'col';
       z = rowIdx % 2;
       if (z === 0) {
         label = this.jsonstat.getLabel(dimIdx);
@@ -200,8 +201,9 @@ export class RendererTable {
       if (f[z] > 1) {
         colspan = f[z];
         i += colspan - 1; // colspan - 1 -> i++ follows
+        scope = 'colgroup';
       }
-      cell = RendererTable.headerCell(label, 'col', colspan);
+      cell = RendererTable.headerCell(label, scope, colspan);
       row.appendChild(cell);
     }
   }
@@ -212,17 +214,22 @@ export class RendererTable {
    * @param {HTMLTableRowElement} row
    */
   labelCells(row) {
-    let cell, rowIdx, f, catIdx, label, rowspan, numVirtRow;
+    let cell, rowIdx, f, catIdx, label, rowspan, numVirtRow, scope;
 
     numVirtRow = this.noLabelLastDim ? 1 : 0;
     rowIdx = row.rowIndex - this.numHeaderRows + numVirtRow;
     for (let i = 0; i < this.numLabelCols; i++) {
       f = this._partials(this.rowDims, i);
       catIdx = Math.floor(rowIdx % f[0] / f[1]);
-      rowspan = (this.useRowSpans && f[1] > 1) ? f[1] : null;
       label = rowIdx % f[1] === 0 ? this.jsonstat.getCategoryLabel(this.numOneDim + i, catIdx) : null;
+      rowspan = null;
+      scope = 'row';
+      if (this.useRowSpans && f[1] > 1) {
+        rowspan = f[1];
+        scope = 'rowgroup';
+      }
       if (rowIdx % f[1] === 0 || !this.useRowSpans) {
-        cell = RendererTable.headerCell(label, 'row', null, rowspan);
+        cell = RendererTable.headerCell(label, scope, null, rowspan);
         row.appendChild(cell);
       }
     }
