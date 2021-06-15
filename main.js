@@ -87,6 +87,7 @@ let app = {
     let renderer, table;
 
     renderer = new RendererTable(this.reader, numRowDim);
+    renderer.useRowSpans = document.getElementById('fldUseRowSpans').checked;
     renderer.init();
     table = renderer.render();
     document.body.appendChild(table);
@@ -98,6 +99,14 @@ let app = {
   initForm: function() {
     let el;
 
+    el = document.createElement('input');
+    el.id = 'fldUseRowSpans';
+    el.type = 'checkbox';
+    el.checked = false;
+    el = this.wrapInLabel('render with rowspans', el);
+    document.body.appendChild(el);
+    document.body.append(document.createElement('br'));
+
     el = this.createSelectSource();
     el.options[1].selected = true;
     el = this.wrapInLabel('select source', el);
@@ -107,6 +116,7 @@ let app = {
     el.options[1].selected = true;
     el = this.wrapInLabel('row dimensions', el);
     document.body.appendChild(el);
+
   },
 
   update: function(json) {
@@ -122,14 +132,6 @@ let app = {
 
     this.removeTable();
     this.createTable(numRowDim);
-  },
-
-  getSelectedNumRowDim: function() {
-    let num;
-
-    num = document.getElementById('numDim').value;
-
-    return parseInt(num);
   },
 
   createSelectSource: function() {
