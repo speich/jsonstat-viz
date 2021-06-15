@@ -96,24 +96,24 @@ let app = {
   /**
    *
    */
-  initForm: function() {
+  initForm: function(numRowDim) {
     let el;
 
     el = document.createElement('input');
     el.id = 'fldUseRowSpans';
     el.type = 'checkbox';
-    el.checked = false;
+    el.checked = true;
     el = this.wrapInLabel('render with rowspans', el);
     document.body.appendChild(el);
     document.body.append(document.createElement('br'));
 
     el = this.createSelectSource();
-    el.options[1].selected = true;
+    el.options[0].selected = true;
     el = this.wrapInLabel('select source', el);
     document.body.appendChild(el);
 
     el = this.createSelectNumDim();
-    el.options[1].selected = true;
+    el.options[numRowDim].selected = true;
     el = this.wrapInLabel('row dimensions', el);
     document.body.appendChild(el);
 
@@ -169,13 +169,13 @@ let app = {
    */
   init: function(json, numRowDim) {
     this.reader = new JsonStat(json);
-    this.initForm();
+    this.initForm(numRowDim);
     this.createTable(numRowDim);
   }
 };
 
-app.loadJsonStat('stammzahl.json').then((json) => {
-  let numRowDim = 1;
+app.loadJsonStat('vorrat.json').then((json) => {
+  let numRowDim = 2;
 
   app.init(json, numRowDim);
 });
