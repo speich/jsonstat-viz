@@ -1,26 +1,74 @@
-table.jst-viz {
+.lfi4 {
+	--color: #1cb7ea;
+	--border-width: 0.5px;
+}
+
+.lfi4 {
+	font-family: "Noto Sans";
+	font-size: 0.8em;
+}
+
+.lfi4 .jst-viz {
 	empty-cells: hide;
 	border-collapse: collapse;
+	min-width: 900px;
 }
 
-.jst-viz th, .jst-viz td {
-	padding: 0.6em 0.2em;
+.lfi4 .jst-viz caption {
+	font-weight: bold;
+	text-align: left;
+	margin-bottom: 1em;
 }
 
-.jst-viz th {
-	font-size: smaller;
-	border-bottom: 1px solid black;
+.lfi4 .jst-viz th, .lfi4 .jst-viz td {
+	padding: 0.4em 0.6em;
+	line-height: 1;
+	font-weight: normal;
+	border: var(--border-width) solid var(--color);
 }
 
-.jst-viz td {
+.lfi4 .jst-viz td {
 	text-align: right;
 }
 
-.jst-viz th[scope="row"] {
+.lfi4 .jst-viz tbody th[scope] {
 	text-align: left;
+	vertical-align: top;
 }
 
-.jst-viz caption {
-	font-weight: bold;
-	text-align: left;
+.lfi4 .jst-viz thead tr:not(:first-child) th[scope="col"] {
+	border-top-width: 0;
 }
+
+.lfi4 .jst-viz thead tr:nth-last-child(2) th {
+	border-bottom-width: 0;
+}
+
+.lfi4 .jst-viz.rowdims1 thead tr:last-child th:nth-child(2n+3) {
+	font-size: 0.8em;
+}
+
+.lfi4 .jst-viz.rowdims2 thead tr:last-child th:nth-child(2n+4) {
+	font-size: 0.8em;
+}
+
+.lfi4 .jst-viz tbody td:nth-of-type(2n) {
+	font-size: 0.8em;
+}
+
+
+/* for useRowSpan = false
+
+.lfi4 .jst-viz tbody th:empty {
+	border-width: 0 0 0 var(--border-width);
+}
+
+
+.lfi4 .jst-viz.rowdims2 tbody td:nth-child(2n+4) {
+	font-size: 0.8em;
+}
+
+.lfi4 .jst-viz tbody tr:last-child th {
+	border-bottom-width: var(--border-width);
+}
+*/

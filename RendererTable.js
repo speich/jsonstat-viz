@@ -4,6 +4,9 @@
  * A table consists of a number of dimensions that are used to define the rows of the table (referred to as label columns)
  * and a number of dimensions that are used to define the columns of the table (referred to as value columns).
  * Setting the property numRowDim defines which dimensions are used for label columns and which for the value columns.
+ *
+ * Note: When rendering a table with rowspans (setting the useRowSpans property to true),
+ * applying css might become complicated because of the irregular number of cells per row.
  */
 export class RendererTable {
   // TODO: auto: if dimension has role attribute 'geo' use it as the columns of the table
@@ -14,27 +17,30 @@ export class RendererTable {
    * @property {JsonStat} jsonstat
    * @property {Number} numRowDim number of row dimensions
    * @property {HTMLTableElement} table
+   * @property {Boolean} useRowSpans use rowspan for empty label cells?
    * @param {JsonStat} jsonstat
    * @param {Number} numRowDim number of row dimensions
    */
   constructor(jsonstat, numRowDim) {
-    this.colDims = [];
-    this.rowDims = [];
+    let dims = jsonstat.getDimensionSizes();
+
     this.jsonstat = jsonstat;
     this.numRowDim = numRowDim;
+    this.rowDims = this.getDims(dims, 'row');
+    this.colDims = this.getDims(dims, 'col');
     this.table = document.createElement('table');
     this.table.classList.add('jst-viz');
+    this.table.classList.add('rowdims' + this.rowDims.length);
+    this.table.classList.add('lastdim' + dims[dims.length - 1]);
     this.noLabelLastDim = true;
+    this.useRowSpans = false;
   }
 
   init() {
     // cache some often used numbers before rendering table
-    let dimsAll = this.jsonstat.getDimensionSizes(false),
-      dims = this.jsonstat.getDimensionSizes();
+    let dimsAll = this.jsonstat.getDimensionSizes(false);
 
-    this.rowDims = this.getDims(dims, 'row');
-    this.colDims = this.getDims(dims, 'col');
-    this.numOneDim = dimsAll.length - dims.length;
+    this.numOneDim = dimsAll.length - this.rowDims.length - this.colDims.length;
     this.numValueCols = this.colDims.length > 0 ? RendererTable.product(this.colDims) : 1;
     this.numLabelCols = this.rowDims.length;
     this.numHeaderRows = this.colDims.length > 0 ? this.colDims.length * 2 : 1; // add an additional row to label each dimension
@@ -170,7 +176,7 @@ export class RendererTable {
    * @param rowIdx
    */
   headerValueCells(row, rowIdx) {
-    let cell, z, idx, dimIdx, f, catIdx, label, colspan;
+    let cell, z, idx, dimIdx, f, catIdx, label, colspan, scope;
 
     if (this.colDims.length === 0) {
       cell = RendererTable.headerCell();
@@ -184,6 +190,7 @@ export class RendererTable {
     f = this._partials(this.colDims, idx);
     for (let i = 0; i < this.numValueCols; i++) {
       colspan = null;
+      scope = 'col';
       z = rowIdx % 2;
       if (z === 0) {
         label = this.jsonstat.getLabel(dimIdx);
@@ -194,8 +201,9 @@ export class RendererTable {
       if (f[z] > 1) {
         colspan = f[z];
         i += colspan - 1; // colspan - 1 -> i++ follows
+        scope = 'colgroup';
       }
-      cell = RendererTable.headerCell(label, 'col', colspan);
+      cell = RendererTable.headerCell(label, scope, colspan);
       row.appendChild(cell);
     }
   }
@@ -206,17 +214,22 @@ export class RendererTable {
    * @param {HTMLTableRowElement} row
    */
   labelCells(row) {
-    let cell, rowIdx, f, catIdx, label, rowspan, numVirtRow;
+    let cell, rowIdx, f, catIdx, label, rowspan, numVirtRow, scope;
 
     numVirtRow = this.noLabelLastDim ? 1 : 0;
     rowIdx = row.rowIndex - this.numHeaderRows + numVirtRow;
     for (let i = 0; i < this.numLabelCols; i++) {
       f = this._partials(this.rowDims, i);
-      if (rowIdx % f[1] === 0) {
-        catIdx = Math.floor(rowIdx % f[0] / f[1]);
-        label = this.jsonstat.getCategoryLabel(this.numOneDim + i, catIdx);
-        rowspan = f[1] > 1 ? f[1] : null;
-        cell = RendererTable.headerCell(label, 'row', null, rowspan);
+      catIdx = Math.floor(rowIdx % f[0] / f[1]);
+      label = rowIdx % f[1] === 0 ? this.jsonstat.getCategoryLabel(this.numOneDim + i, catIdx) : null;
+      rowspan = null;
+      scope = 'row';
+      if (this.useRowSpans && f[1] > 1) {
+        rowspan = f[1];
+        scope = 'rowgroup';
+      }
+      if (rowIdx % f[1] === 0 || !this.useRowSpans) {
+        cell = RendererTable.headerCell(label, scope, null, rowspan);
         row.appendChild(cell);
       }
     }
