@@ -56,6 +56,9 @@
 	font-size: 0.8em;
 }
 
+.lfi4 .jst-viz th.last, .lfi4 .jst-viz th[scope="row"].last ~ td  {
+	font-weight: bold;
+}
 
 /* for useRowSpan = false
 
