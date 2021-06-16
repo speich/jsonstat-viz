@@ -1,11 +1,16 @@
 /**
  * Class to work with jsonstat.org files.
  */
-export class JsonStat {
+export class JsonStatReader {
 
 	/**
-	 * @property {Object} jsonstat
+	 * @property {Object} data
 	 * @param {Object} jsonstat
+	 * @param {String} jsonstat.label
+	 * @param {Array} jsonstat.id
+	 * @param {Array} jsonstat.size
+	 * @param {Array} jsonstat.value
+	 * @param {Object} jsonstat.dimension
 	 */
 	constructor(jsonstat) {
 		this.data = jsonstat;
