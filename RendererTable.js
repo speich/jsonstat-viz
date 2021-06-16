@@ -38,8 +38,7 @@ export class RendererTable {
     this.rowDims = this.getDims(dims, 'row');
     this.colDims = this.getDims(dims, 'col');
     this.table = document.createElement('table');
-    this.table.classList.add('jst-viz');
-    this.table.classList.add('rowdims' + this.rowDims.length);
+    this.table.classList.add('jst-viz', 'numRowDims' + this.rowDims.length, 'lastDimSize' + dims[dims.length - 1]);
     this.noLabelLastDim = true;
     this.useRowSpans = true;
   }

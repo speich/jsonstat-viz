@@ -44,34 +44,12 @@
 	border-bottom-width: 0;
 }
 
-.lfi4 .jst-viz.rowdims1 thead tr:last-child th:nth-child(2n+3) {
-	font-size: 0.8em;
-}
-
-.lfi4 .jst-viz.rowdims2 thead tr:last-child th:nth-child(2n+4) {
-	font-size: 0.8em;
-}
-
-.lfi4 .jst-viz tbody td:nth-of-type(2n) {
+.lfi4 .jst-viz.lastDimSize2 tbody td:nth-of-type(2n),
+.lfi4 .jst-viz.numRowDims1.lastDimSize2 thead tr:last-child th:nth-child(2n+3),
+.lfi4 .jst-viz.numRowDims2.lastDimSize2 thead tr:last-child th:nth-child(2n+4) {
 	font-size: 0.8em;
 }
 
 .lfi4 .jst-viz th.last, .lfi4 .jst-viz th[scope="row"].last ~ td  {
 	font-weight: bold;
 }
-
-/* for useRowSpan = false
-
-.lfi4 .jst-viz tbody th:empty {
-	border-width: 0 0 0 var(--border-width);
-}
-
-
-.lfi4 .jst-viz.rowdims2 tbody td:nth-child(2n+4) {
-	font-size: 0.8em;
-}
-
-.lfi4 .jst-viz tbody tr:last-child th {
-	border-bottom-width: var(--border-width);
-}
-*/
