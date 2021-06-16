@@ -1,5 +1,5 @@
 import { RendererTable } from './RendererTable.js';
-import { JsonStat } from './JsonStat.js';
+import { JsonStatReader } from './JsonStatReader.js';
 
 let app = {
   reader: null,
@@ -122,7 +122,7 @@ let app = {
   update: function(json) {
     let el, numRowDim = 1;
 
-    this.reader = new JsonStat(json);
+    this.reader = new JsonStatReader(json);
 
     el = document.getElementById('numDim');
     this.removeSelect(el);
@@ -168,7 +168,7 @@ let app = {
    * @param numRowDim number of row dimensions
    */
   init: function(json, numRowDim) {
-    this.reader = new JsonStat(json);
+    this.reader = new JsonStatReader(json);
     this.initForm(numRowDim);
     this.createTable(numRowDim);
   }
