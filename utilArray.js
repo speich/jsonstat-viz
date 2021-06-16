@@ -22,7 +22,7 @@ export let utilArray = {
      * @return {Array}
      * @private
      */
-    partials(values, idx) {
+    productUpperNext(values, idx) {
         let f = [];
 
         f[0] = this.productUpper(values, idx);
@@ -47,4 +47,4 @@ export let utilArray = {
 
         return num;
     }
-}
+};
