@@ -133,7 +133,6 @@ export class RendererTable {
         scope = 'col';
       }
       cell = RendererTable.headerCell(label, scope);
-      row.appendChild(cell);
     }
   }
 
@@ -147,7 +146,6 @@ export class RendererTable {
 
     if (this.colDims.length === 0) {
       cell = RendererTable.headerCell();
-      row.appendChild(cell);
 
       return;
     }
@@ -171,7 +169,6 @@ export class RendererTable {
         scope = 'colgroup';
       }
       cell = RendererTable.headerCell(label, scope, colspan);
-      row.appendChild(cell);
     }
   }
 
@@ -197,7 +194,6 @@ export class RendererTable {
       if (rowIdxBody % f[1] === 0 || !this.useRowSpans) {
         cell = RendererTable.headerCell(label, scope, null, rowspan);
         this.labelCellCss(cell, i, rowIdxBody);
-        row.appendChild(cell);
       }
     }
   }
@@ -237,13 +233,14 @@ export class RendererTable {
 
   /**
    * Create and returns a header cell element.
+   * @param {HTMLTableRowElement} row
    * @param {String} [str] cell content
    * @param {String} [scope] scope of cell
    * @param [colspan] number of columns to span
    * @param [rowspan] number of rows to span
    * @return {HTMLTableCellElement}
    */
-  static headerCell(str = null, scope = null, colspan = null, rowspan = null) {
+  static headerCell(row, str = null, scope = null, colspan = null, rowspan = null) {
     let cell = document.createElement('th');
 
     if (scope !== null) {
@@ -259,7 +256,7 @@ export class RendererTable {
       cell.rowSpan = rowspan;
     }
 
-    return cell;
+    return row.insertCell();
   }
 
   /**
