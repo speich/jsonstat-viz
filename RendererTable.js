@@ -67,6 +67,7 @@ export class RendererTable {
    * Constant dimensions (e.g. of length 1) are excluded.
    * @param {Array} dims
    * @param {String} type 'row' or 'col'
+   * @return {Array}
    */
   getDims(dims, type) {
 
