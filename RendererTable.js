@@ -133,7 +133,7 @@ export class RendererTable {
         label = this.reader.getLabel(this.numOneDim + k);
         scope = 'col';
       }
-      cell = RendererTable.headerCell(label, scope);
+      cell = RendererTable.headerCell(row, label, scope);
     }
   }
 
@@ -146,7 +146,7 @@ export class RendererTable {
     let cell, z, idx, dimIdx, f, catIdx, label, colspan, scope;
 
     if (this.colDims.length === 0) {
-      cell = RendererTable.headerCell();
+      cell = RendererTable.headerCell(row);
 
       return;
     }
@@ -169,7 +169,7 @@ export class RendererTable {
         i += colspan - 1; // colspan - 1 -> i++ follows
         scope = 'colgroup';
       }
-      cell = RendererTable.headerCell(label, scope, colspan);
+      cell = RendererTable.headerCell(row, label, scope, colspan);
     }
   }
 
@@ -193,7 +193,7 @@ export class RendererTable {
         scope = 'rowgroup';
       }
       if (rowIdxBody % f[1] === 0 || !this.useRowSpans) {
-        cell = RendererTable.headerCell(label, scope, null, rowspan);
+        cell = RendererTable.headerCell(row, label, scope, null, rowspan);
         this.labelCellCss(cell, i, rowIdxBody);
       }
     }
@@ -224,12 +224,15 @@ export class RendererTable {
    * Inserts a HTMLTableCellElement at the end of the row with a value taken from the values at given offset.
    * @param {HTMLTableRowElement} row
    * @param offset
+   * @return {HTMLTableCellElement}
    */
   valueCell(row, offset) {
     let cell, stat = this.reader;
 
     cell = row.insertCell();
     cell.textContent = stat.data.value[offset]; // not need to escape
+
+    return cell;
   }
 
   /**
@@ -257,7 +260,7 @@ export class RendererTable {
       cell.rowSpan = rowspan;
     }
 
-    return row.insertCell();
+    return row.appendChild(cell);
   }
 
   /**
