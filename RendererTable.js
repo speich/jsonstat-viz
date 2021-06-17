@@ -9,7 +9,7 @@ import { utilArray } from './utilArray.js';
  * whereas the column dimensions contain the actual values.
  *
  * Setting the property numRowDim (number of row dimensions) defines how many of the dimensions are use for the rows,
- * beginning at the start of the ordered size array of the jsonstat schema. Remaining dimensions are used for columns.
+ * beginning at the start of the ordered size array of the reader schema. Remaining dimensions are used for columns.
  * Dimensions of length one are excluded.
  *
  * Setting the property noLabelLastDim will skip the row in the table heading containing the labels of the last
@@ -26,14 +26,20 @@ export class RendererTable {
    * @property {JsonStatReader} jsonStatReader jsonStatReader schema
    * @property {Number} numRowDim number of row dimensions
    * @property {HTMLTableElement} table
-   * @property {Boolean} nolabelLastDim render row with labels of last dimension?
+   * @property {Boolean} nolabelLastDim render the row with labels of last dimension? default = true
+   * @property {Boolean} useRowSpans render the table with rowspans ? default = true
+   * @property {Number} numOneDim number of dimensions of size one
+   * @property {Number} numValueCols number of columns with values
+   * @property {Number} numLabelCols number of columns with labels
+   * @property {Number} numHeaderRows number of row headers
+   *
    * @param {JsonStatReader} jsonStatReader jsonStatReader schema
    * @param {Number} numRowDim number of row dimensions
    */
   constructor(jsonStatReader, numRowDim) {
     let dims = jsonStatReader.getDimensionSizes();
 
-    this.jsonstat = jsonStatReader;
+    this.reader = jsonStatReader;
     this.numRowDim = numRowDim;
     this.rowDims = this.getDims(dims, 'row');
     this.colDims = this.getDims(dims, 'col');
@@ -48,7 +54,7 @@ export class RendererTable {
    */
   init() {
     // cache some often used numbers before rendering table
-    let dimsAll = this.jsonstat.getDimensionSizes(false);
+    let dimsAll = this.reader.getDimensionSizes(false);
 
     this.numOneDim = dimsAll.length - this.rowDims.length - this.colDims.length;
     this.numValueCols = this.colDims.length > 0 ? utilArray.product(this.colDims) : 1;
@@ -104,7 +110,7 @@ export class RendererTable {
     let tBody, row;
 
     tBody = this.table.createTBody();
-    for (let offset = 0, len = this.jsonstat.getNumValues(); offset < len; offset++) {
+    for (let offset = 0, len = this.reader.getNumValues(); offset < len; offset++) {
       if (offset % this.numValueCols === 0) {
         row = tBody.insertRow();
         this.labelCells(row);
@@ -123,7 +129,7 @@ export class RendererTable {
       let cell, label = null, scope = null;
 
       if (rowIdx === this.numHeaderRows - 1) { // last header row
-        label = this.jsonstat.getLabel(this.numOneDim + k);
+        label = this.reader.getLabel(this.numOneDim + k);
         scope = 'col';
       }
       cell = RendererTable.headerCell(label, scope);
@@ -154,10 +160,10 @@ export class RendererTable {
       scope = 'col';
       z = rowIdx % 2;
       if (z === 0) {
-        label = this.jsonstat.getLabel(dimIdx);
+        label = this.reader.getLabel(dimIdx);
       } else {
         catIdx = Math.floor((i % f[0]) / f[1]);
-        label = this.jsonstat.getCategoryLabel(dimIdx, catIdx);
+        label = this.reader.getCategoryLabel(dimIdx, catIdx);
       }
       if (f[z] > 1) {
         colspan = f[z];
@@ -181,7 +187,7 @@ export class RendererTable {
     for (let i = 0; i < this.numLabelCols; i++) {
       f = utilArray.productUpperNext(this.rowDims, i);
       catIdx = Math.floor(rowIdxBody % f[0] / f[1]);
-      label = rowIdxBody % f[1] === 0 ? this.jsonstat.getCategoryLabel(this.numOneDim + i, catIdx) : null;
+      label = rowIdxBody % f[1] === 0 ? this.reader.getCategoryLabel(this.numOneDim + i, catIdx) : null;
       rowspan = null;
       scope = 'row';
       if (this.useRowSpans && f[1] > 1) {
@@ -223,7 +229,7 @@ export class RendererTable {
    * @param offset
    */
   valueCell(row, offset) {
-    let cell, stat = this.jsonstat;
+    let cell, stat = this.reader;
 
     cell = row.insertCell();
     cell.textContent = stat.data.value[offset]; // not need to escape
@@ -263,7 +269,7 @@ export class RendererTable {
   caption() {
     let caption = this.table.createCaption();
 
-    caption.innerHTML = this.jsonstat.escapeHtml(this.jsonstat.data.label);
+    caption.innerHTML = this.reader.escapeHtml(this.reader.data.label);
 
     return caption;
   }
