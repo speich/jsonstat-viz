@@ -40,7 +40,7 @@ export class RendererTable {
     let dims = jsonStatReader.getDimensionSizes();
 
     this.reader = jsonStatReader;
-    this.numRowDim = numRowDim;
+    this.numRowDim = numRowDim ? numRowDim : this.numRowDimAuto();
     this.rowDims = this.getDims(dims, 'row');
     this.colDims = this.getDims(dims, 'col');
     this.table = document.createElement('table');
@@ -286,5 +286,11 @@ export class RendererTable {
     let numVirtRow = this.noLabelLastDim ? 1 : 0;
 
     return row.rowIndex - this.numHeaderRows + numVirtRow;
+  }
+
+  numRowDimAuto() {
+    let dims = this.reader.getDimensionSizes();
+
+    return dims.slice(0, dims.length - 2).length;
   }
 }
