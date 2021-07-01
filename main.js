@@ -9,6 +9,7 @@ let app = {
     ['stammzahl.json', 'Stammzahl'],
     ['waldflaeche.json', 'Waldfläche'],
     ['jungwald.json', 'Jungwald'],
+    ['vorrat5dim.json', 'Test 5 Dim'],
     ['https://json-stat.org/samples/oecd.json', 'OECD'],
     ['https://json-stat.org/samples/canada.json', 'Canada'],
     ['https://json-stat.org/samples/galicia.json', 'Galicia']
