@@ -1,0 +1,60 @@
+{
+  "extension": {
+    "defaultLanguage": "de-CH",
+    "translations": {
+      "languages": ["fr-CH", "it-CH", "en-US"],
+      "fr-CH": {
+        "dimension": {
+          "PRODREG": {
+            "label": "régions de production",
+            "category": {
+              "label": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "dimension": {
+    "PRODREG": {
+      "label": "production region",
+      "category": {
+        "index": ["1", "2", "3", "4", "5", "999999"],
+        "label": {
+          "1": "Jura",
+          "2": "Plateau",
+          "3": "Pre-Alps",
+          "4": "Alps",
+          "5": "Southern Alps",
+          "999999": "Switzerland"
+        },
+        "extension": {
+          "translations": {
+            "languages": ["fr-CH", "it-CH", "en-US"],
+            "label": {
+              "1": {
+                "fr-CH": "Jura",
+                "it-CH": "Jura",
+                "en-CH": "Jura"
+              },
+              "2": {
+                "fr-CH": "Plateau",
+                "it-CH": "Plateau",
+                "en-US": "Plateau"
+              }
+            }
+          }
+        }
+      },
+      "extension": {
+        "type": "abl",
+        "VARNR": 49,
+        "TABNR": 6,
+        "translations": {
+          "index": ["fr-CH", "it-CH", "en-US"],
+          "fr-CH": "région de productions"
+        }
+      }
+    }
+  }
+}
