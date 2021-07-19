@@ -3,12 +3,25 @@
     "defaultLanguage": "de-CH",
     "translations": {
       "languages": ["fr-CH", "it-CH", "en-US"],
-      "fr-CH": {
-        "dimension": {
-          "PRODREG": {
-            "label": "régions de production",
-            "category": {
-              "label": {}
+      "dimension": {
+        "PRODREG": {
+          "label": {
+            "fr-CH": "région de productions",
+            "fr-it": "regione die produzione",
+            "en-US": "production region"
+          },
+          "category": {
+            "label": {
+              "1": {
+                "fr-CH": "Jura",
+                "it-CH": "Jura",
+                "en-CH": "Jura"
+              },
+              "2": {
+                "fr-CH": "Plateau",
+                "it-CH": "Plateau",
+                "en-US": "Plateau"
+              }
             }
           }
         }
@@ -27,10 +40,20 @@
           "4": "Alps",
           "5": "Southern Alps",
           "999999": "Switzerland"
-        },
-        "extension": {
-          "translations": {
-            "languages": ["fr-CH", "it-CH", "en-US"],
+        }
+      },
+      "extension": {
+        "type": "abl",
+        "VARNR": 49,
+        "TABNR": 6,
+        "translations": {
+          "languages": ["fr-CH", "it-CH", "en-US"],
+          "label": {
+            "fr-CH": "région de productions",
+            "fr-it": "regione die produzione",
+            "en-US": "production region"
+          },
+          "category": {
             "label": {
               "1": {
                 "fr-CH": "Jura",
@@ -44,15 +67,6 @@
               }
             }
           }
-        }
-      },
-      "extension": {
-        "type": "abl",
-        "VARNR": 49,
-        "TABNR": 6,
-        "translations": {
-          "index": ["fr-CH", "it-CH", "en-US"],
-          "fr-CH": "région de productions"
         }
       }
     }
