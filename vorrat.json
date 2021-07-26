@@ -12,6 +12,7 @@
 		"time": ["period"]
 	},
 	"extension": {
+		"version": "2021-07",
 		"url-table": "https://www.lfi.ch/resultate/resultate-en.php?p=reg&zigrNr=21&befNr=1090&regionNr=49&prodNr=32&prodItNr=189147",
 		"url-json": "https://www.lfi.ch/temp/vorrat.json"
 	},
