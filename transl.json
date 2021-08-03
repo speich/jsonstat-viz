@@ -1,13 +1,13 @@
 {
   "extension": {
     "defaultLanguage": "de-CH",
-    "translations": {
-      "languages": ["fr-CH", "it-CH", "en-US"],
+    "translation": {
+      "language": ["fr-CH", "it-CH", "en-US"],
       "dimension": {
         "PRODREG": {
           "label": {
-            "fr-CH": "régions de production",
-            "it-CH": "regione de produzione",
+            "fr-CH": "région de productions",
+            "fr-it": "regione die produzione",
             "en-US": "production region"
           },
           "category": {

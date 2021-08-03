@@ -89,7 +89,6 @@ let app = {
 
     renderer = new RendererTable(this.reader, numRowDim);
     renderer.useRowSpans = document.getElementById('fldUseRowSpans').checked;
-    renderer.init();
     table = renderer.render();
     document.body.appendChild(table);
   },
