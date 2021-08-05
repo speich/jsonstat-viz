@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="lfidev.wsl.ch" id="b7c8777b-dcd6-48c3-9f58-3792f0973dd1" port="22" customName="lfidev.wsl.ch" nameFormat="CUSTOM" username="lfiuser">
+        <option name="customName" value="lfidev.wsl.ch" />
+      </sshConfig>
+      <sshConfig authType="PASSWORD" host="www.lfi.ch" id="37bc384b-8604-4909-9aac-edb4ce1d4dea" port="22" customName="www.lfi.ch" nameFormat="CUSTOM" username="lfiuser">
+        <option name="customName" value="www.lfi.ch" />
+      </sshConfig>
+      <sshConfig authType="PASSWORD" connectionConfig="{&quot;serverAliveInterval&quot;:300}" host="lfidev.wsl.ch" id="b07667f0-b35f-4538-b34e-edb5c5e377f5" port="22" customName="lfidev.wsl.ch" nameFormat="CUSTOM" username="lfiuser">
+        <option name="customName" value="lfidev.wsl.ch" />
+      </sshConfig>
+      <sshConfig authType="PASSWORD" connectionConfig="{&quot;serverAliveInterval&quot;:300}" host="www.lfi.ch" id="7748d61d-79f1-45b3-a3b0-54a145844af0" port="22" customName="www.lfi.ch" nameFormat="CUSTOM">
+        <option name="customName" value="www.lfi.ch" />
+      </sshConfig>
+      <sshConfig authType="PASSWORD" connectionConfig="{&quot;serverAliveInterval&quot;:300}" host="lfidev.wsl.ch" id="3c6f0a77-935d-4ee0-8aed-8e7d9b5cc23e" port="22" customName="lfidev.wsl.ch" nameFormat="CUSTOM">
+        <option name="customName" value="lfidev.wsl.ch" />
+      </sshConfig>
+    </configs>
+  </component>
+</project>

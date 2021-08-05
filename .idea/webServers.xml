@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="97689e13-4473-4255-ba8a-8a491ddf8dba" name="lfidev.wsl.ch" url="https://lfidev.wsl.ch">
+        <fileTransfer host="lfidev.wsl.ch" port="22" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="e1b8dadf-0166-4043-af6a-7471fca21867" name="www.lfi.ch" url="http://www.lfi.ch">
+        <fileTransfer host="www.lfi.ch" port="22" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
