@@ -104,43 +104,81 @@
       "Netz1": {
         "id": 1746,
         "col": "N4P12345",
-        "label": "Netz NFI4 2009-2013"
+        "label": "Netz NFI4 2009-2013",
+        "desc": "Zugehörigkeit zum geometrischen 1.4 x 1.4km Netz des LFI (auch Basisnetz)."
       },
-      "Zielgrösse1": {
+      "Auswertungseinheit": {
+        "id": 91,
+        "col": "ZGWALD1234",
+        "label": "zugänglicher Wald",
+        "desc": "Zugehörigkeit zum gemeinsam zugänglichen Wald ohne Gebüschwald in den Inventuren nach Methoden LFI1 bis LFI4"
+      },
+      "Aussageeinheit": {
+        "id": 49,
+        "col": "PRODREG",
+        "dim": "1",
+        "desc": "Die Produktionsregionen sind Regionen mit ähnlichen forstlichen Wuchs- und Produktionsbedingungen..."
+      },
+      "AussageeinheitAnzeigen": {
+        "id": 1,
+        "label": "anzeigen"
+      },
+      "AnzProbeAnzeigen": {
+        "id": 2,
+        "label": "ausblenden"
+      },
+      "DsStratifizierung": {
+        "id": 3,
+        "label": "Vegetationshöhe plus Wald-/Nichtwald Stratifizierung (2-phasig)"
+      },
+      "Fehlerangabe": {
+        "id": 1,
+        "label": "absolut"
+      },
+      "DiffProInv": {
+        "id": 1,
+        "label": "absolut"
+      },
+      "Zielgroesse1": {
         "id": 21,
-        "desc": "Anzahl Stämme aller lebenden und toten Bäume und Sträucher ab 12 cm BHD",
         "dim": "concept",
+        "desc": "Anzahl Stämme aller lebenden und toten Bäume und Sträucher ab 12 cm BHD",
         "restr": {
           "id": 789,
           "col": "AHAUFEN",
           "label": "Asthaufen",
-          "category": {
-            "filter": "<>",
-            "label": {
-              "0": "Bund",
-              "4": "Kanton"
-            }
+          "index": 0,
+          "operator": {
+            "7": "<>"
+          },
+          "value": {
+            "0": "Bund",
+            "4": "Kanton"
           }
         }
       },
-      "Zielgrösse2": {
+      "Zielgroesse2": {
         "id": 44,
         "label": "Waldfläche",
         "desc": "Die Waldfläche ist die Gesamtheit aller Flächen, die gemäss Walddefinition..."
       },
-      "Auswertungseinheit": {},
-      "Aussageeinheit": {
-        "id": 49,
-        "col": "PRODREG",
-        "desc": "Die Produktionsregionen sind Regionen mit ähnlichen forstlichen Wuchs- und Produktionsbedingungen...",
-        "dim": "1",
-        "restr": {}
+      "Zeitbezug": {
+        "id": 1,
+        "label": "pro Vegetationsperiode"
+      },
+      "Flaechenbezug": {
+        "id": 1,
+        "label": "absolut"
+      },
+      "Bezugstyp": {
+        "id": 3,
+        "label": "Spaltentotal"
       },
       "Befundeinheit1": {
         "id": 1090,
         "col": "BHDKL",
-        "desc": "bla bla bla bla",
         "dim": "2",
+        "desc": "bla bla bla bla",
         "category": {
           "map": {
             "0": ["0", "1", "2"],
@@ -153,31 +191,18 @@
             "2": "24-35 cm",
             "3": "36-51 cm",
             "4": ">= 52 cm"
-          }
-        },
-        "restr": {
-          "category": {
-            "filter": "<>",
-            "label": {
-              "0": "Bund",
-              "4": "Kanton"
-            }
-          }
-        }
-      },
-      "Befundeinheit2": {
-        "col": "LBHNDH123"
-      },
-      "Restriktion 1": {
-        "id": "789",
-        "label": "Asthaufen",
-        "desc": "lore ipsum",
-        "TODO": {
-          "Operation": {
-            "1": "AND"
           },
-          "Operator": {
-            "2": "<>"
+          "restr": {
+            "index": 1,
+            "operation": "AND",
+            "operator": {
+              "6": "="
+            },
+            "value": {
+              "0": "12-15 cm",
+              "1": "16-23 cm",
+              "2": "24-35 cm"
+            }
           }
         }
       }
@@ -209,7 +234,11 @@
       },
       "extension": {
         "parameter": {
-          "Auswertungseinheit": {}
+          "Auswertungseinheit": {
+            "label": {
+              "fr-CH": "forêt accessible sans la forêt buissonnante"
+            }
+          }
         }
       }
     }
