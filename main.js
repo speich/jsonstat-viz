@@ -173,16 +173,26 @@ let app = {
     this.initForm(numRowDim);
     this.createTable(numRowDim);
 
-    let rowIdx = 2;
+    let rowIdx = 6;
     let shape = this.reader.data.size;
-
-    let idx = utilArray.rowToLinear(rowIdx, shape);
-    console.log(idx);
     let stride = utilArray.stride(shape);
     console.log(shape, stride);
-    let sub = utilArray.linearToSub(shape, 0);
+
+    let valFromTo = utilArray.rowToLinear(rowIdx, shape);
+    console.log(valFromTo);
+
+    let sub = utilArray.linearToSub(shape, valFromTo[0] + 2);
     console.log(sub);
-    //this.reader.getCategoryId(dimensionId, categoryIdx)
+
+    // get the category label of all dimensions at this value index.
+    let label = [];
+    for (let i = 0; i < sub.length; i++) {
+      let dimId = this.reader.data.id[i];
+      let categIdx = sub[i];
+      let categId = this.reader.data.dimension[dimId].category.index[categIdx];
+      label[i] = this.reader.data.dimension[dimId].category.label[categId];
+    }
+    console.log(label);
   }
 };
 

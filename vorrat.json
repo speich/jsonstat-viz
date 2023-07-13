@@ -4,8 +4,8 @@
 	"label": "volume: diameter classes · conifers/broadleaves. production region. NFI4b 2009/13",
 	"source": "© WSL, Swiss National Forest Inventory, 17.03.2015",
 	"updated": "2017-03-17T12:30:02Z",
-	"id": ["period", "N4P12345", "BHDKL", "LBHNDH123", "PRODREG", "concept"],
-	"size": [1, 1, 6, 3, 6, 2],
+	"id": ["BHDKL", "LBHNDH123", "PRODREG", "concept"],
+	"size": [6, 3, 6, 2],
 	"role": {
 		"geo": ["PRODREG"],
 		"metric": ["concept"],
@@ -83,26 +83,6 @@
 						"decimals": 0,
 						"multiplier": 1
 					}
-				}
-			}
-		},
-		"period": {
-			"label": "inventory",
-			"category": {
-				"label": {
-					"1": "NFI4b, state 2009/13"
-				}
-			},
-			"extension": {
-				"type": "inv",
-				"INVNR": 452
-			}
-		},
-		"N4P12345": {
-			"label": "grid",
-			"category": {
-				"label": {
-					"1": "grid NFI4 2009-2013"
 				}
 			}
 		}
