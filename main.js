@@ -176,6 +176,7 @@ let app = {
     let rowIdx = 6;
     let shape = this.reader.data.size;
     let stride = utilArray.stride(shape);
+    console.log('rowIdx', rowIdx)
     console.log(shape, stride);
 
     let valFromTo = utilArray.rowToLinear(rowIdx, shape);
