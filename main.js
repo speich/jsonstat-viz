@@ -1,5 +1,6 @@
 import { RendererTable } from './RendererTable.js';
 import { JsonStatReader } from './JsonStatReader.js';
+import {utilArray} from "./utilArray.js";
 
 let app = {
   reader: null,
@@ -171,6 +172,17 @@ let app = {
     this.reader = new JsonStatReader(json);
     this.initForm(numRowDim);
     this.createTable(numRowDim);
+
+    let rowIdx = 2;
+    let shape = this.reader.data.size;
+
+    let idx = utilArray.rowToLinear(rowIdx, shape);
+    console.log(idx);
+    let stride = utilArray.stride(shape);
+    console.log(shape, stride);
+    let sub = utilArray.linearToSub(shape, 0);
+    console.log(sub);
+    //this.reader.getCategoryId(dimensionId, categoryIdx)
   }
 };
 
